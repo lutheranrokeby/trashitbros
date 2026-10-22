@@ -1,7 +1,6 @@
 import { saveContentToSupabase } from './supabase';
 import fs from 'fs';
 import path from 'path';
-import bcrypt from 'bcryptjs';
 import { DatabaseSchema, PageData, ServiceItem, ProjectItem, TestimonialItem, FAQItem, QuoteEnquiry, SiteSettings, MediaFile, User } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
@@ -14,16 +13,7 @@ function ensureDataDir() {
 }
 
 function getDefaultData(): DatabaseSchema {
-  const salt = bcrypt.genSaltSync(10);
-  const passwordHash = bcrypt.hashSync('admin123', salt);
 
-  const initialUser: User = {
-    id: 'user-admin',
-    username: 'admin',
-    passwordHash: passwordHash,
-    role: 'admin',
-    name: 'Administrator',
-  };
 
   const initialSettings: SiteSettings = {
     companyName: 'Trash It Bros',
@@ -461,7 +451,7 @@ function getDefaultData(): DatabaseSchema {
     enquiries: [],
     settings: initialSettings,
     media: initialMedia,
-    users: [initialUser],
+    users: [],
     revisions: [],
   };
 }

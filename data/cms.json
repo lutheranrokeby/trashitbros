@@ -383,15 +383,7 @@
       }
     }
   },
-  "users": [
-    {
-      "id": "user-admin",
-      "name": "Administrator",
-      "role": "admin",
-      "username": "admin",
-      "passwordHash": "$2b$10$5pZUfqAITeYYRElkZYDfOekvAq37OAikIMRImv/gp/qlAZ3GLVd2G"
-    }
-  ],
+  "users": [],
   "projects": [
     {
       "id": "proj-1",

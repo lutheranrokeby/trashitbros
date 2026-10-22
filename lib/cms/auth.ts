@@ -1,6 +1,5 @@
-﻿import { cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 import crypto from 'crypto';
-import { readDatabase } from './db';
 import { User } from './types';
 
 const SECRET_KEY = process.env.CMS_JWT_SECRET || 'trash-it-bros-secure-secret-key-2026';
@@ -9,6 +8,7 @@ interface SessionPayload {
   userId: string;
   username: string;
   role: 'admin' | 'editor' | 'viewer';
+  name?: string;
   exp: number;
 }
 
@@ -46,7 +46,11 @@ export async function getSessionUser(): Promise<User | null> {
   if (!token) return null;
   const payload = verifyToken(token);
   if (!payload) return null;
-  const db = readDatabase();
-  const user = db.users.find((u) => u.id === payload.userId);
-  return user || null;
+  return {
+    id: payload.userId,
+    username: payload.username,
+    passwordHash: '',
+    role: payload.role,
+    name: payload.name || payload.username.split('@')[0],
+  };
 }

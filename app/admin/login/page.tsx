@@ -1,13 +1,13 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, User, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Lock, Mail, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
             CMS ADMIN PORTAL
           </h1>
           <p className="text-xs text-gray-400 mt-1">
-            Sign in to manage website content, quotes, and media
+            Sign in with your Supabase credentials to manage website content, quotes, and media
           </p>
         </div>
 
@@ -67,18 +67,18 @@ export default function AdminLoginPage() {
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-xs font-montserrat font-bold uppercase text-gray-300 mb-1.5">
-              Username
+              Email Address
             </label>
             <div className="relative">
               <input
-                type="text"
+                type="email"
                 required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@trashitbros.com.au"
                 className="w-full bg-near-black border border-steel-grey rounded px-3 py-2.5 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-safety-orange text-sm"
               />
-              <User className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             </div>
           </div>
 
@@ -97,12 +97,6 @@ export default function AdminLoginPage() {
               />
               <Lock className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             </div>
-          </div>
-
-          <div className="p-3 rounded bg-near-black/70 border border-steel-grey/60 text-[11px] text-gray-400">
-            <span className="font-bold text-gray-300">Default Demo Credentials:</span>
-            <br />
-            Username: <code className="text-safety-orange">admin</code> • Password: <code className="text-safety-orange">admin123</code>
           </div>
 
           <button
