@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-black: #080A0D;
+  --color-charcoal: #14181F;
+  --color-steel: #242B35;
+
+  --color-concrete: #F3F4F2;
+  --color-white: #FFFFFF;
+
+  --color-orange: #F97316;
+  --color-orange-text-light-bg: #C2410C;
+
+  --color-text-dark: #111827;
+  --color-text-body: #334155;
+  --color-text-muted: #64748B;
+
+  --color-text-light: #FFFFFF;
+  --color-text-light-muted: #CBD5E1;
+
+  --color-border-dark: #343B46;
+  --color-border-light: #E2E5E9;
+
+  --background: #080A0D;
+  --foreground: #FFFFFF;
+  --charcoal: #14181F;
+  --near-black: #080A0D;
+  --safety-orange: #F97316;
+  --steel-grey: #343B46;
+  --concrete: #F3F4F2;
+  --off-white: #FFFFFF;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Industrial angular cuts and badge styling matching uploaded design board */
+.clip-angle-br {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%);
+}
+
+.clip-angle-tl {
+  clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
+}
+
+.clip-badge-orange {
+  position: relative;
+}
+
+.clip-badge-orange::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 40px;
+  height: 40px;
+  border-top: 4px solid #F97316;
+  border-right: 4px solid #F97316;
+  pointer-events: none;
+}
+
+.clip-badge-orange::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: -8px;
+  width: 40px;
+  height: 40px;
+  border-bottom: 4px solid #F97316;
+  border-left: 4px solid #F97316;
+  pointer-events: none;
+}
+
+/* Inline Editing styles when edit mode is active */
+.inline-edit-outline {
+  position: relative;
+  outline: 2px dashed transparent;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.edit-mode-active .inline-edit-outline {
+  outline: 1.5px dashed rgba(249, 115, 22, 0.45);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.edit-mode-active .inline-edit-outline:hover {
+  outline: 2px dashed #F97316;
+  outline-offset: 4px;
+  background-color: rgba(249, 115, 22, 0.12);
+}
+
+.inline-editing-now {
+  outline: 2px solid #F97316 !important;
+  outline-offset: 4px;
+  background-color: rgba(249, 115, 22, 0.12) !important;
+}
+
+/* Smooth range slider for before-after image comparison */
+.slider-handle {
+  touch-action: none;
+  cursor: ew-resize;
+}
