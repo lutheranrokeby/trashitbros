@@ -1,0 +1,7 @@
+# Netlify Deployment Configuration for Trash It Bros
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

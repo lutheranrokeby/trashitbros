@@ -1,3 +1,4 @@
+import { saveContentToSupabase } from './supabase';
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
@@ -482,6 +483,23 @@ export function readDatabase(): DatabaseSchema {
 }
 
 export function writeDatabase(data: DatabaseSchema): void {
-  ensureDataDir();
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  try {
+    ensureDataDir();
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('Local fs write skipped or read-only:', err);
+  }
+  saveContentToSupabase(data).catch((err) => {
+    console.error('Failed to sync to Supabase in writeDatabase:', err);
+  });
+}
+
+export async function writeDatabaseAsync(data: DatabaseSchema): Promise<boolean> {
+  try {
+    ensureDataDir();
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('Local fs write skipped or read-only:', err);
+  }
+  return await saveContentToSupabase(data);
 }

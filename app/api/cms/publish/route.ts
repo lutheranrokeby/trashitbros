@@ -1,6 +1,7 @@
-﻿import { NextResponse } from 'next/server';
-import { readDatabase, writeDatabase } from '@/lib/cms/db';
+import { NextResponse } from 'next/server';
+import { readDatabase, writeDatabaseAsync } from '@/lib/cms/db';
 import { getSessionUser } from '@/lib/cms/auth';
+import { triggerNetlifyBuild } from '@/lib/cms/supabase';
 
 export async function POST(request: Request) {
   const user = await getSessionUser();
@@ -37,7 +38,13 @@ export async function POST(request: Request) {
     page.publishedAt = new Date().toISOString();
     page.updatedAt = new Date().toISOString();
 
-    writeDatabase(db);
+    // Persist to local & Supabase
+    await writeDatabaseAsync(db);
+
+    // Trigger Netlify build webhook to deploy updated static pages
+    triggerNetlifyBuild().catch((err) => {
+      console.warn('Background Netlify build hook trigger notice:', err);
+    });
 
     return NextResponse.json({
       success: true,

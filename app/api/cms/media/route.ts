@@ -1,9 +1,10 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
-import { readDatabase, writeDatabase } from '@/lib/cms/db';
+import { readDatabase, writeDatabaseAsync } from '@/lib/cms/db';
 import { getSessionUser } from '@/lib/cms/auth';
+import { uploadToSupabaseStorage } from '@/lib/cms/supabase';
 
 const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads');
 
@@ -23,8 +24,6 @@ export async function POST(request: Request) {
   if (!user || user.role === 'viewer') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
-
-  ensureUploadDir();
 
   try {
     const formData = await request.formData();
@@ -46,7 +45,20 @@ export async function POST(request: Request) {
     const filename = `${cleanBase}_${Date.now()}${ext}`;
     const filePath = path.join(UPLOAD_DIR, filename);
 
-    fs.writeFileSync(filePath, buffer);
+    // Save locally if directory is writable
+    try {
+      ensureUploadDir();
+      fs.writeFileSync(filePath, buffer);
+    } catch (fsErr) {
+      console.warn('Local fs write skipped:', fsErr);
+    }
+
+    // Upload to Supabase Storage if configured
+    let mediaUrl = `/uploads/${filename}`;
+    const supabaseUrl = await uploadToSupabaseStorage(buffer, filename, file.type, 'trashitbros/media');
+    if (supabaseUrl) {
+      mediaUrl = supabaseUrl;
+    }
 
     let width: number | undefined;
     let height: number | undefined;
@@ -62,7 +74,7 @@ export async function POST(request: Request) {
     const mediaEntry = {
       id: `m-${Date.now()}`,
       filename,
-      url: `/uploads/${filename}`,
+      url: mediaUrl,
       alt: alt || cleanBase,
       size: file.size,
       width,
@@ -72,7 +84,7 @@ export async function POST(request: Request) {
 
     const db = readDatabase();
     db.media.unshift(mediaEntry);
-    writeDatabase(db);
+    await writeDatabaseAsync(db);
 
     return NextResponse.json(mediaEntry, { status: 201 });
   } catch (error) {
@@ -100,7 +112,8 @@ export async function DELETE(request: Request) {
       }
     }
     db.media = db.media.filter((m) => m.id !== id);
-    writeDatabase(db);
+    await writeDatabaseAsync(db);
+    return NextResponse.json({ success: true });
   }
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ error: 'Media not found' }, { status: 404 });
 }

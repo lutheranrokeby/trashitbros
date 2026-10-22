@@ -109,7 +109,7 @@ export default function AdminEnquiriesPage() {
     const matchesSearch =
       e.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       e.reference.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      e.siteAddress.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (e.siteAddress || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
       e.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       e.phone.includes(searchQuery);
     return matchesFilter && matchesSearch;

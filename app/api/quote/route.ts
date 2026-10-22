@@ -1,3 +1,4 @@
+import { uploadToSupabaseStorage } from '@/lib/cms/supabase';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
     const email = ((formData.get('email') as string) || '').trim();
     const phone = ((formData.get('phone') as string) || '').trim();
     const noPhotosRaw = formData.get('noPhotos');
-    const noPhotos = noPhotosRaw === 'true' || noPhotosRaw === '1' || noPhotosRaw === true;
+    const noPhotos = noPhotosRaw === 'true' || noPhotosRaw === '1';
 
     // 1. Validate Full Name
     if (!fullName) {
@@ -115,8 +116,19 @@ export async function POST(request: Request) {
       const safeFilename = `quote_${Date.now()}_${Math.random().toString(36).substring(2, 7)}${ext}`;
       const filePath = path.join(QUOTES_DIR, safeFilename);
       const buffer = Buffer.from(await file.arrayBuffer());
-      fs.writeFileSync(filePath, buffer);
-      photos.push(`/uploads/quotes/${safeFilename}`);
+      try {
+        ensureQuotesDir();
+        fs.writeFileSync(filePath, buffer);
+      } catch (fsErr) {
+        console.warn('Local quotes dir write skipped:', fsErr);
+      }
+
+      let photoUrl = `/uploads/quotes/${safeFilename}`;
+      const supabasePhotoUrl = await uploadToSupabaseStorage(buffer, safeFilename, file.type || 'image/jpeg', 'trashitbros/quotes');
+      if (supabasePhotoUrl) {
+        photoUrl = supabasePhotoUrl;
+      }
+      photos.push(photoUrl);
     }
 
     // 4. Validate Photos vs No-Photos Checkbox
