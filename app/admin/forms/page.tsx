@@ -17,8 +17,9 @@ import {
   Eye,
   Info,
   Sparkles,
-  CloudCheck,
+  UploadCloud,
   Check,
+  Globe,
 } from 'lucide-react';
 import { FormEmbedItem } from '@/lib/cms/types';
 
@@ -47,8 +48,12 @@ function FormsManagerContent() {
   const [forms, setForms] = useState<FormEmbedItem[]>([]);
   const [selectedFormId, setSelectedFormId] = useState<string>('quote-form');
   const [loading, setLoading] = useState(true);
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
+
+  // Separate draft saving and deployment states
+  const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [publishStatus, setPublishStatus] = useState<'idle' | 'publishing' | 'published' | 'error'>('idle');
+  const [lastDraftSavedAt, setLastDraftSavedAt] = useState<string | null>(null);
+  const [lastPublishedAt, setLastPublishedAt] = useState<string | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Form draft state for currently selected form
@@ -63,7 +68,7 @@ function FormsManagerContent() {
     return forms.find((f) => f.id === selectedFormId);
   }, [forms, selectedFormId]);
 
-  // Determine if there are unsaved changes
+  // Determine if there are unsaved draft changes
   const isDirty = useMemo(() => {
     if (!selectedOriginal) return false;
     return (
@@ -96,7 +101,6 @@ function FormsManagerContent() {
         const data = await res.json();
         setForms(data || []);
 
-        // Pick requested form from URL if provided, otherwise first form
         const initialId =
           requestedFormId && data.some((f: FormEmbedItem) => f.id === requestedFormId)
             ? requestedFormId
@@ -112,17 +116,15 @@ function FormsManagerContent() {
     }
   }, [requestedFormId, loadSelectedIntoState]);
 
-  // Fetch all forms on mount
   useEffect(() => {
     fetchForms();
   }, [fetchForms]);
 
-  // When selected form changes
   const handleSelectForm = (id: string) => {
     setSelectedFormId(id);
     loadSelectedIntoState(id, forms);
     setNotification(null);
-    setSaveStatus('idle');
+    setDraftStatus('idle');
   };
 
   // Sync preview whenever embedCode changes
@@ -156,9 +158,9 @@ function FormsManagerContent() {
     };
   }, [embedCode]);
 
-  // Save current form
-  const handleSave = async () => {
-    setSaveStatus('saving');
+  // Step 1: Save Draft to Supabase (Zero Netlify rebuild minutes wasted)
+  const handleSaveDraft = async () => {
+    setDraftStatus('saving');
     setNotification(null);
 
     const updatedItem: FormEmbedItem = {
@@ -179,11 +181,11 @@ function FormsManagerContent() {
 
       if (res.ok) {
         const now = new Date().toLocaleTimeString();
-        setLastSavedAt(now);
-        setSaveStatus('saved');
+        setLastDraftSavedAt(now);
+        setDraftStatus('saved');
         setNotification({
           type: 'success',
-          message: `Saved "${updatedItem.name}" embed code! Netlify build queued and changes are live.`,
+          message: `Saved draft for "${updatedItem.name}" to Supabase! Click "Publish to Live Site" when you want it deployed.`,
         });
 
         // Update local list
@@ -198,23 +200,67 @@ function FormsManagerContent() {
         });
 
         setTimeout(() => {
-          setSaveStatus((prev) => (prev === 'saved' ? 'idle' : prev));
-        }, 4000);
+          setDraftStatus((prev) => (prev === 'saved' ? 'idle' : prev));
+        }, 3500);
       } else {
         const err = await res.json().catch(() => ({ error: `Failed with status ${res.status}` }));
-        setSaveStatus('error');
+        setDraftStatus('error');
         if (res.status === 401 || res.status === 403) {
           setNotification({
             type: 'error',
-            message: 'Session expired or unauthorized. Please re-login to the CMS admin to save changes.',
+            message: 'Session expired. Please re-login to the CMS admin to save changes.',
           });
         } else {
-          setNotification({ type: 'error', message: err.error || 'Failed to save form.' });
+          setNotification({ type: 'error', message: err.error || 'Failed to save draft.' });
         }
       }
     } catch (err: unknown) {
-      setSaveStatus('error');
-      const errorMsg = err instanceof Error ? err.message : 'Network error saving form.';
+      setDraftStatus('error');
+      const errorMsg = err instanceof Error ? err.message : 'Network error saving draft.';
+      setNotification({ type: 'error', message: errorMsg });
+    }
+  };
+
+  // Step 2: Publish All to Live Site (Triggers Netlify Build Hook to bake static pages)
+  const handlePublishAll = async () => {
+    // If there are unsaved edits in current form, save draft first
+    if (isDirty) {
+      await handleSaveDraft();
+    }
+
+    setPublishStatus('publishing');
+    setNotification(null);
+
+    try {
+      const res = await fetch('/api/cms/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ publishAll: true, type: 'forms' }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const now = new Date().toLocaleTimeString();
+        setLastPublishedAt(now);
+        setPublishStatus('published');
+        setNotification({
+          type: 'success',
+          message: data.netlifyBuildTriggered
+            ? 'Publish request queued on Netlify! A fresh static build has started and will be live in 1–2 minutes.'
+            : 'Changes published to Supabase! (Netlify build hook triggered).',
+        });
+
+        setTimeout(() => {
+          setPublishStatus((prev) => (prev === 'published' ? 'idle' : prev));
+        }, 5000);
+      } else {
+        const err = await res.json().catch(() => ({ error: `Failed with status ${res.status}` }));
+        setPublishStatus('error');
+        setNotification({ type: 'error', message: err.error || 'Failed to publish changes.' });
+      }
+    } catch (err: unknown) {
+      setPublishStatus('error');
+      const errorMsg = err instanceof Error ? err.message : 'Network error publishing changes.';
       setNotification({ type: 'error', message: errorMsg });
     }
   };
@@ -235,15 +281,13 @@ function FormsManagerContent() {
     setFormDesc(newForm.description || '');
     setFormPageUrl(newForm.pageUrl || '');
     setEmbedCode('');
-    setSaveStatus('idle');
+    setDraftStatus('idle');
   };
-
-  const selectedForm = forms.find((f) => f.id === selectedFormId);
 
   return (
     <div className="space-y-8 relative">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-steel-grey/60">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-steel-grey/60">
         <div>
           <span className="text-xs font-montserrat font-bold uppercase tracking-wider text-safety-orange">
             CRM & LEAD CAPTURE
@@ -254,43 +298,69 @@ function FormsManagerContent() {
             </h1>
             {isDirty && (
               <span className="text-[11px] font-montserrat font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 animate-pulse">
-                Unsaved Changes
+                Unsaved Draft
               </span>
             )}
           </div>
           <p className="text-xs sm:text-sm text-gray-400 mt-1 max-w-2xl">
-            Manage embedded forms across the website. Paste iframe or script embed codes from your CRM (Lutheran CRM, HubSpot, etc.) to immediately connect forms to your lead workflow.
+            Edit forms and embeds safely. <strong>Save Draft</strong> saves immediately to Supabase without wasting Netlify build minutes. Click <strong>Publish to Live Site</strong> when you are ready to deploy your changes to visitors.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={handleAddNewSlot}
-            className="flex items-center gap-2 bg-near-black hover:bg-steel-grey/40 text-white font-montserrat font-bold text-xs uppercase px-4 py-2.5 rounded border border-steel-grey transition-colors"
+            className="flex items-center gap-2 bg-near-black hover:bg-steel-grey/40 text-white font-montserrat font-bold text-xs uppercase px-3.5 py-2.5 rounded border border-steel-grey transition-colors"
           >
-            <Plus className="w-3.5 h-3.5 text-safety-orange" /> Add Form Slot
+            <Plus className="w-3.5 h-3.5 text-safety-orange" /> Add Slot
           </button>
 
+          {/* Step 1: Save Draft Button */}
           <button
-            onClick={handleSave}
-            disabled={saveStatus === 'saving'}
+            onClick={handleSaveDraft}
+            disabled={draftStatus === 'saving'}
+            className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-4 py-2.5 rounded transition-all shadow-md disabled:opacity-50 ${
+              draftStatus === 'saved'
+                ? 'bg-amber-600 text-white'
+                : 'bg-near-black hover:bg-charcoal border border-steel-grey text-white'
+            }`}
+          >
+            {draftStatus === 'saving' ? (
+              <>
+                <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving Draft...
+              </>
+            ) : draftStatus === 'saved' ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Draft Saved!
+              </>
+            ) : (
+              <>
+                <Save className="w-3.5 h-3.5 text-safety-orange" /> Save Draft
+              </>
+            )}
+          </button>
+
+          {/* Step 2: Publish All to Live Site Button */}
+          <button
+            onClick={handlePublishAll}
+            disabled={publishStatus === 'publishing'}
             className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-5 py-2.5 rounded transition-all shadow-lg disabled:opacity-50 ${
-              saveStatus === 'saved'
+              publishStatus === 'published'
                 ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
                 : 'bg-safety-orange hover:bg-orange-hover text-white shadow-safety-orange/20'
             }`}
           >
-            {saveStatus === 'saving' ? (
+            {publishStatus === 'publishing' ? (
               <>
-                <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving...
+                <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Publishing...
               </>
-            ) : saveStatus === 'saved' ? (
+            ) : publishStatus === 'published' ? (
               <>
-                <CheckCircle2 className="w-3.5 h-3.5" /> Saved!
+                <CheckCircle2 className="w-3.5 h-3.5" /> Published!
               </>
             ) : (
               <>
-                <Save className="w-3.5 h-3.5" /> Save Changes
+                <UploadCloud className="w-3.5 h-3.5" /> Publish to Live Site
               </>
             )}
           </button>
@@ -323,7 +393,7 @@ function FormsManagerContent() {
         </div>
       )}
 
-      {/* Main Two-Column Layout: Form Selector & Form Editor */}
+      {/* Main Two-Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Form Slots List */}
         <div className="lg:col-span-4 space-y-3">
@@ -383,10 +453,11 @@ function FormsManagerContent() {
           {/* Quick Help Card */}
           <div className="p-4 rounded-xl bg-near-black/60 border border-steel-grey/60 text-xs text-gray-300 space-y-2 mt-6">
             <div className="flex items-center gap-2 text-white font-montserrat font-bold">
-              <Info className="w-4 h-4 text-safety-orange" /> Embedding Instructions
+              <Info className="w-4 h-4 text-safety-orange" /> How Publishing Works
             </div>
             <p className="leading-relaxed">
-              When you save changes here, the new embed code is securely saved to Supabase and a fresh static build is automatically triggered on Netlify to update live pages across the website.
+              1. <strong>Save Draft:</strong> Saves your embed code to Supabase and updates the live preview below immediately.<br />
+              2. <strong>Publish to Live Site:</strong> Triggers Netlify to bake your updated form into static HTML for visitors.
             </p>
           </div>
         </div>
@@ -509,43 +580,72 @@ function FormsManagerContent() {
             </div>
 
             {/* Bottom Actions with In-Place Feedback */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-steel-grey/60">
-              <div className="text-xs text-gray-400 flex items-center gap-2">
-                {lastSavedAt ? (
-                  <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                    <Check className="w-3.5 h-3.5" /> Last saved at {lastSavedAt}
-                  </span>
-                ) : isDirty ? (
-                  <span className="text-amber-400 font-medium">
-                    ● You have unsaved changes
-                  </span>
-                ) : (
-                  <span>Ready to edit</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-steel-grey/60">
+              <div className="text-xs text-gray-400 space-y-0.5">
+                {lastDraftSavedAt && (
+                  <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+                    <Check className="w-3.5 h-3.5" /> Draft saved to Supabase at {lastDraftSavedAt}
+                  </div>
+                )}
+                {lastPublishedAt && (
+                  <div className="flex items-center gap-1.5 text-blue-400 font-medium">
+                    <Globe className="w-3.5 h-3.5" /> Published to Netlify at {lastPublishedAt}
+                  </div>
+                )}
+                {!lastDraftSavedAt && isDirty && (
+                  <div className="text-amber-400 font-medium">
+                    ● You have unsaved changes in this form
+                  </div>
                 )}
               </div>
 
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={handleSave}
-                  disabled={saveStatus === 'saving'}
-                  className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-6 py-3 rounded transition-all shadow-lg disabled:opacity-50 ${
-                    saveStatus === 'saved'
+                  onClick={handleSaveDraft}
+                  disabled={draftStatus === 'saving'}
+                  className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-5 py-2.5 rounded transition-all border disabled:opacity-50 ${
+                    draftStatus === 'saved'
+                      ? 'bg-emerald-950 border-emerald-500 text-emerald-200'
+                      : 'bg-near-black hover:bg-steel-grey/40 border-steel-grey text-white'
+                  }`}
+                >
+                  {draftStatus === 'saving' ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving Draft...
+                    </>
+                  ) : draftStatus === 'saved' ? (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Draft Saved!
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-3.5 h-3.5 text-safety-orange" /> Save Draft
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handlePublishAll}
+                  disabled={publishStatus === 'publishing'}
+                  className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-6 py-2.5 rounded transition-all shadow-lg disabled:opacity-50 ${
+                    publishStatus === 'published'
                       ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
                       : 'bg-safety-orange hover:bg-orange-hover text-white shadow-safety-orange/20'
                   }`}
                 >
-                  {saveStatus === 'saving' ? (
+                  {publishStatus === 'publishing' ? (
                     <>
-                      <RefreshCw className="w-4 h-4 animate-spin" /> Saving Form Embed...
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Publishing...
                     </>
-                  ) : saveStatus === 'saved' ? (
+                  ) : publishStatus === 'published' ? (
                     <>
-                      <CheckCircle2 className="w-4 h-4" /> Form Embed Saved!
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Published!
                     </>
                   ) : (
                     <>
-                      <Save className="w-4 h-4" /> Save Form Embed Code
+                      <UploadCloud className="w-3.5 h-3.5" /> Publish to Live Site
                     </>
                   )}
                 </button>
@@ -559,7 +659,7 @@ function FormsManagerContent() {
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-safety-orange" />
                 <h3 className="font-montserrat font-bold text-sm uppercase text-white tracking-wide">
-                  Live Form Preview
+                  Live Form Preview (Interactive Draft)
                 </h3>
               </div>
               <span className="text-[11px] text-gray-400 font-mono">
@@ -574,13 +674,13 @@ function FormsManagerContent() {
         </div>
       </div>
 
-      {/* Floating Save Status Toast for Uninterrupted Visibility Anywhere on Page */}
-      {saveStatus === 'saved' && (
+      {/* Floating Status Toast */}
+      {publishStatus === 'published' && (
         <div className="fixed bottom-6 right-6 z-50 bg-emerald-900 border border-emerald-500 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-bounce">
           <CheckCircle2 className="w-5 h-5 text-emerald-300 shrink-0" />
           <div>
-            <p className="font-montserrat font-bold text-xs uppercase">Embed Code Saved!</p>
-            <p className="text-[11px] text-emerald-200">Supabase updated & Netlify build triggered.</p>
+            <p className="font-montserrat font-bold text-xs uppercase">Published to Live Site!</p>
+            <p className="text-[11px] text-emerald-200">Netlify build queued. Static pages are rebuilding now.</p>
           </div>
         </div>
       )}

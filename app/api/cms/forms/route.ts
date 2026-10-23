@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { readDatabaseAsync, writeDatabaseAsync } from '@/lib/cms/db';
 import { getSessionUser } from '@/lib/cms/auth';
-import { triggerNetlifyBuild } from '@/lib/cms/supabase';
 import { FormEmbedItem } from '@/lib/cms/types';
 
 export async function GET(request: Request) {
@@ -54,16 +53,12 @@ export async function POST(request: Request) {
       }
     }
 
+    // Persist draft to Supabase JSON and local file (no Netlify build trigger until user clicks Publish)
     const saved = await writeDatabaseAsync(db);
-
-    // Trigger Netlify build webhook so static production pages are rebuilt with the new embed
-    triggerNetlifyBuild().catch((err) => {
-      console.warn('Background Netlify build hook trigger notice:', err);
-    });
 
     return NextResponse.json({ success: true, forms: db.forms, savedToSupabase: saved });
   } catch (error) {
-    console.error('Save forms error:', error);
-    return NextResponse.json({ error: 'Failed to save forms data' }, { status: 500 });
+    console.error('Save forms draft error:', error);
+    return NextResponse.json({ error: 'Failed to save forms draft' }, { status: 500 });
   }
 }

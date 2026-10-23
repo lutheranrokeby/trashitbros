@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readDatabase, writeDatabaseAsync } from '@/lib/cms/db';
+import { readDatabaseAsync, writeDatabaseAsync } from '@/lib/cms/db';
 import { getSessionUser } from '@/lib/cms/auth';
 import { triggerNetlifyBuild } from '@/lib/cms/supabase';
 
@@ -10,10 +10,26 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { pageSlug } = await request.json();
-    const slug = pageSlug || 'home';
+    const body = await request.json().catch(() => ({}));
+    const { pageSlug, publishAll, type } = body;
+    const db = await readDatabaseAsync();
 
-    const db = readDatabase();
+    if (publishAll || type === 'forms' || type === 'all') {
+      // Save all latest content and trigger Netlify static site rebuild
+      await writeDatabaseAsync(db);
+      const hookTriggered = await triggerNetlifyBuild();
+
+      return NextResponse.json({
+        success: true,
+        publishedAt: new Date().toISOString(),
+        netlifyBuildTriggered: hookTriggered,
+        message: hookTriggered
+          ? 'Netlify build triggered successfully. Static pages are being rebuilt and deployed!'
+          : 'Changes saved to Supabase! Netlify build hook not configured or triggered.',
+      });
+    }
+
+    const slug = pageSlug || 'home';
     const page = db.pages[slug];
     if (!page) {
       return NextResponse.json({ error: 'Page not found' }, { status: 404 });
@@ -42,14 +58,13 @@ export async function POST(request: Request) {
     await writeDatabaseAsync(db);
 
     // Trigger Netlify build webhook to deploy updated static pages
-    triggerNetlifyBuild().catch((err) => {
-      console.warn('Background Netlify build hook trigger notice:', err);
-    });
+    const hookTriggered = await triggerNetlifyBuild();
 
     return NextResponse.json({
       success: true,
       publishedAt: page.publishedAt,
       content: page.publishedContent,
+      netlifyBuildTriggered: hookTriggered,
     });
   } catch (error) {
     console.error('Publish error:', error);

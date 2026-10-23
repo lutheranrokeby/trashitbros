@@ -43,8 +43,11 @@ export function CRMFormEmbed({
   );
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Sync client-side with database in case embed code was updated dynamically
+  // Only sync client-side if in edit mode (admin preview) or if no static embed code was baked
   useEffect(() => {
+    // If not editing and static embed code was already baked at build time, do zero network requests!
+    if (!isEditMode && initialEmbedCode) return;
+
     let isMounted = true;
     async function loadForm() {
       try {
@@ -64,7 +67,7 @@ export function CRMFormEmbed({
     return () => {
       isMounted = false;
     };
-  }, [formId]);
+  }, [formId, isEditMode, initialEmbedCode]);
 
   // Execute scripts inside embed code safely & setup resize listeners
   useEffect(() => {
