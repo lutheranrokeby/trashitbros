@@ -38,7 +38,7 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* SECTION 1: HERO (Original black-to-photo blend) */}
-        <section className="relative min-h-[85vh] lg:min-h-[92vh] max-h-[950px] flex flex-col justify-between overflow-hidden bg-[#080A0D]">
+        <section className="relative min-h-[calc(100dvh-4rem)] sm:min-h-[85vh] lg:min-h-[92vh] max-h-[950px] flex flex-col justify-between overflow-hidden bg-[#080A0D]">
           {/* Background Image with Seamless Atmospheric Gradient Overlay */}
           <div className="absolute inset-0 z-0 overflow-hidden bg-[#080A0D]">
             {/* Full-width responsive hero image */}
@@ -70,15 +70,16 @@ export default function HomePage() {
               }}
             />
 
-            {/* Mobile: Atmospheric vertical gradient ensuring maximum text readability across full width */}
+            {/* Mobile: Atmospheric vertical gradient ensuring maximum text readability at top and bottom */}
             <div
               className="block md:hidden absolute inset-0 pointer-events-none z-10"
               style={{
                 background: `linear-gradient(
                   180deg,
-                  rgba(8, 10, 13, 0.94) 0%,
-                  rgba(8, 10, 13, 0.86) 40%,
-                  rgba(8, 10, 13, 0.90) 75%,
+                  rgba(8, 10, 13, 0.95) 0%,
+                  rgba(8, 10, 13, 0.82) 32%,
+                  rgba(8, 10, 13, 0.60) 50%,
+                  rgba(8, 10, 13, 0.88) 72%,
                   #080A0D 100%
                 )`,
               }}
@@ -91,58 +92,64 @@ export default function HomePage() {
             <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#080A0D] via-[#080A0D]/75 to-transparent z-10 pointer-events-none" />
           </div>
 
-          {/* Hero Content - Strictly anchored to reader's left side */}
-          <div className="relative z-20 w-full max-w-site mx-auto px-4 sm:px-10 lg:px-14 xl:px-16 pt-16 sm:pt-24 pb-12 sm:pb-16 flex-1 flex flex-col justify-center items-start text-left">
-            <div className="w-full max-w-xl lg:max-w-xl xl:max-w-2xl text-left">
-              {/* Eyebrow */}
-              <div className="flex items-center gap-2 mb-4 text-left">
-                <span className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange text-left">
-                  <InlineText
-                    fieldKey="hero_eyebrow"
-                    defaultValue="CONSTRUCTION SITE CLEAN-UPS & RUBBISH REMOVAL"
-                  />
-                </span>
+          {/* Hero Content - On mobile: Heading at top, Description + Buttons at bottom */}
+          <div className="relative z-20 w-full max-w-site mx-auto px-5 sm:px-10 lg:px-14 xl:px-16 pt-8 sm:pt-24 pb-8 sm:pb-16 flex-1 flex flex-col justify-between sm:justify-center items-start text-left">
+            <div className="w-full max-w-xl lg:max-w-xl xl:max-w-2xl text-left flex-1 sm:flex-initial flex flex-col justify-between sm:justify-start">
+              {/* TOP GROUP: Eyebrow + Bold Stacked Headline */}
+              <div className="pt-2 sm:pt-0">
+                {/* Eyebrow */}
+                <div className="flex items-center gap-2 mb-3 sm:mb-4 text-left">
+                  <span className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange text-left">
+                    <InlineText
+                      fieldKey="hero_eyebrow"
+                      defaultValue="CONSTRUCTION SITE CLEAN-UPS & RUBBISH REMOVAL"
+                    />
+                  </span>
+                </div>
+
+                {/* Bold Bebas Neue Stacked Headline */}
+                <h1 className="font-bebas text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight leading-[0.92] mb-0 sm:mb-6 drop-shadow-sm text-left">
+                  <span className="block text-white">
+                    <InlineText fieldKey="hero_headline_1" defaultValue="YOU BUILD IT." />
+                  </span>
+                  <span className="block text-safety-orange">
+                    <InlineText fieldKey="hero_headline_2" defaultValue="WE TAKE IT." />
+                  </span>
+                </h1>
               </div>
 
-              {/* Bold Bebas Neue Stacked Headline */}
-              <h1 className="font-bebas text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6 drop-shadow-sm text-left">
-                <span className="block text-white">
-                  <InlineText fieldKey="hero_headline_1" defaultValue="YOU BUILD IT." />
-                </span>
-                <span className="block text-safety-orange">
-                  <InlineText fieldKey="hero_headline_2" defaultValue="WE TAKE IT." />
-                </span>
-              </h1>
+              {/* BOTTOM GROUP: Description Paragraph + Action Buttons */}
+              <div className="mt-8 sm:mt-0 space-y-4 sm:space-y-8">
+                {/* Paragraph */}
+                <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-lg font-inter text-left">
+                  <InlineText
+                    fieldKey="hero_paragraph"
+                    defaultValue="Fast, reliable and hassle-free rubbish removal for construction sites, renovations, businesses and homes across the Sunshine Coast."
+                    multiline
+                  />
+                </p>
 
-              {/* Paragraph */}
-              <p className="text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-lg font-inter text-left">
-                <InlineText
-                  fieldKey="hero_paragraph"
-                  defaultValue="Fast, reliable and hassle-free rubbish removal for construction sites, renovations, businesses and homes across the Sunshine Coast."
-                  multiline
-                />
-              </p>
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 text-left w-full sm:w-auto">
+                  <Link
+                    href="/get-a-quote"
+                    className="group flex items-center justify-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase px-8 py-4 rounded-md transition-all duration-200 shadow-xl shadow-safety-orange/25 hover:shadow-safety-orange/40"
+                  >
+                    <span>
+                      <InlineText fieldKey="hero_cta_primary" defaultValue="GET A FREE QUOTE" />
+                    </span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 text-left w-full sm:w-auto">
-                <Link
-                  href="/get-a-quote"
-                  className="group flex items-center justify-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase px-8 py-4 rounded-md transition-all duration-200 shadow-xl shadow-safety-orange/25 hover:shadow-safety-orange/40"
-                >
-                  <span>
-                    <InlineText fieldKey="hero_cta_primary" defaultValue="GET A FREE QUOTE" />
-                  </span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-
-                <Link
-                  href="/services"
-                  className="flex items-center justify-center gap-2 bg-[#080A0D]/70 hover:bg-[#080A0D] text-white border border-[#343B46] hover:border-white font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase px-7 py-4 rounded-md transition-colors backdrop-blur-sm"
-                >
-                  <span>
-                    <InlineText fieldKey="hero_cta_secondary" defaultValue="OUR SERVICES" />
-                  </span>
-                </Link>
+                  <Link
+                    href="/services"
+                    className="flex items-center justify-center gap-2 bg-[#080A0D]/70 hover:bg-[#080A0D] text-white border border-[#343B46] hover:border-white font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase px-7 py-4 rounded-md transition-colors backdrop-blur-sm"
+                  >
+                    <span>
+                      <InlineText fieldKey="hero_cta_secondary" defaultValue="OUR SERVICES" />
+                    </span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
