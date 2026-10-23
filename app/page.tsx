@@ -6,6 +6,7 @@ import { InlineText } from '@/components/cms/InlineText';
 import { InlineImage } from '@/components/cms/InlineImage';
 import { CMSSection } from '@/components/cms/CMSSection';
 import { BeforeAfterSlider } from '@/components/public/BeforeAfterSlider';
+import { PromotionalOfferSection } from '@/components/public/PromotionalOfferSection';
 import { readDatabase } from '@/lib/cms/db';
 import {
   ArrowRight,
@@ -158,96 +159,7 @@ export default function HomePage() {
         {/* SECTION: SPECIAL PROMOTIONAL OFFER (Directly below Hero) */}
         {activeOffer && (
           <CMSSection sectionKey="home_offer" label="Special Offer Promotion">
-            <section className="relative bg-gradient-to-b from-[#080A0D] via-[#14181F] to-[#080A0D] border-y border-[#343B46] py-12 lg:py-16 overflow-hidden">
-              <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-[#080A0D] border-2 border-safety-orange/40 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-2xl">
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                    
-                    {/* Left Details */}
-                    <div className="lg:col-span-7 space-y-5">
-                      <h2 className="font-bebas text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92]">
-                        {activeOffer.headline}{' '}
-                        <span className="text-safety-orange">{activeOffer.priceHighlight}</span>
-                      </h2>
-
-                      {/* Speech Bubble Hook */}
-                      <div className="relative bg-white text-[#111827] rounded-2xl p-5 sm:p-6 shadow-2xl border-2 border-white max-w-xl">
-                        <div className="hidden sm:block absolute -left-3 top-8 w-0 h-0 border-t-[10px] border-t-transparent border-r-[14px] border-r-white border-b-[10px] border-b-transparent" />
-                        <p className="font-bebas text-2xl sm:text-3xl text-[#111827] tracking-wide leading-tight uppercase">
-                          {activeOffer.hook}
-                        </p>
-                      </div>
-
-                      {/* Core Inclusions Box with Drop Shadow */}
-                      <div className="bg-white border-2 border-[#111827] rounded-xl p-5 sm:p-6 text-[#111827] shadow-[6px_6px_0px_rgba(0,0,0,0.85)] space-y-3 max-w-xl">
-                        <p className="font-inter font-bold text-base sm:text-lg text-[#111827]">
-                          {activeOffer.summary}
-                        </p>
-
-                        <div className="flex items-center gap-2 text-sm text-[#334155] font-semibold">
-                          <MapPin className="w-4 h-4 text-safety-orange shrink-0" />
-                          <span>{activeOffer.serviceAreas}</span>
-                        </div>
-
-                        <div className="pt-2 border-t border-gray-200">
-                          <p className="text-xs sm:text-sm text-[#334155] leading-relaxed">
-                            <span className="bg-[#111827] text-white font-mono font-bold px-2 py-0.5 rounded text-xs uppercase mr-1.5">
-                              Jobs from $99
-                            </span>
-                            {activeOffer.pricingNote}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right Column: CTA Box linking to form section below */}
-                    <div className="lg:col-span-5 bg-[#14181F] border-2 border-safety-orange/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
-                      <div className="space-y-3">
-                        <span className="text-xs font-montserrat font-bold tracking-widest uppercase text-safety-orange block">
-                          FAST &amp; UPFRONT PRICING
-                        </span>
-                        <h3 className="font-bebas text-3xl sm:text-4xl text-white tracking-wide leading-tight">
-                          READY TO GET RID OF THE MESS?
-                        </h3>
-                        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-inter">
-                          Request your upfront quote now. We load it, clear it, dispose of it responsibly, and leave your space clean and tidy.
-                        </p>
-                      </div>
-
-                      <div className="space-y-3 pt-2">
-                        <Link
-                          href={`/offers/${activeOffer.slug}#claim-offer`}
-                          className="w-full inline-flex items-center justify-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm sm:text-base tracking-wider uppercase px-8 py-4 rounded-xl shadow-xl shadow-safety-orange/25 transition-all hover:scale-[1.02] text-center"
-                        >
-                          <span>{activeOffer.ctaText || 'CLAIM THIS OFFER NOW'}</span>
-                          <ArrowRight className="w-5 h-5" />
-                        </Link>
-
-                        <a
-                          href={`tel:${(activeOffer.phone || '0481975170').replace(/\s+/g, '')}`}
-                          className="w-full inline-flex items-center justify-center gap-2 bg-[#080A0D] hover:bg-[#1C222B] text-white border border-[#343B46] font-montserrat font-bold text-sm tracking-wider uppercase px-6 py-3.5 rounded-xl transition-colors text-center"
-                        >
-                          <Phone className="w-4 h-4 text-safety-orange" />
-                          <span>Call {activeOffer.phone || '0481 975 170'}</span>
-                        </a>
-                      </div>
-
-                      <div className="pt-4 border-t border-[#343B46] flex items-center justify-between text-xs text-gray-400 font-semibold">
-                        <div className="flex items-center gap-1.5 text-gray-300">
-                          <CheckCircle2 className="w-4 h-4 text-safety-orange" />
-                          <span>Upfront Quote</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-gray-300">
-                          <CheckCircle2 className="w-4 h-4 text-safety-orange" />
-                          <span>Full Heavy Lifting</span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </section>
+            <PromotionalOfferSection offer={activeOffer} isLandingPage={false} />
           </CMSSection>
         )}
 
@@ -790,9 +702,7 @@ export default function HomePage() {
               </a>
             </div>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs text-gray-400">
-              <span>Mon – Sat: 6:00 AM – 6:00 PM</span>
-              <span>•</span>
-              <span className="text-safety-orange font-semibold">★ 24/7 On-Call Available</span>
+              <span>Mon – Sat: 5:00 AM – 8:00 PM</span>
               <span>•</span>
               <span>Sunshine Coast & Surrounds</span>
             </div>

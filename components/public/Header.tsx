@@ -159,11 +159,19 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Desktop CTA Button */}
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Desktop Header Actions (Call Button + Quote CTA) */}
+        <div className="hidden lg:flex items-center gap-3">
+          <a
+            href={`tel:${phone.replace(/\s+/g, '')}`}
+            className="flex items-center gap-2 bg-[#14181F] hover:bg-[#1C222B] text-white border border-[#343B46] hover:border-gray-400 font-montserrat font-bold text-xs tracking-wider uppercase px-4 py-2.5 rounded-md transition-colors"
+          >
+            <Phone className="w-3.5 h-3.5 text-safety-orange" />
+            <span>Call {phone}</span>
+          </a>
+
           <Link
             href="/get-a-quote"
-            className="group flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs sm:text-sm tracking-wide px-5 py-2.5 rounded-md transition-all duration-200 shadow-md shadow-safety-orange/20"
+            className="group flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs tracking-wide uppercase px-5 py-2.5 rounded-md transition-all duration-200 shadow-md shadow-safety-orange/20 hover:scale-[1.02]"
           >
             <span>Get a Quote</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

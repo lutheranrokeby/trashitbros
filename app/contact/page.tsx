@@ -82,7 +82,7 @@ export default function ContactPage() {
                       <a href="tel:0481975170" className="text-base font-semibold text-[#111827] hover:text-safety-orange transition-colors">
                         <InlineText fieldKey="contact_phone" defaultValue="0481 975 170" as="span" />
                       </a>
-                      <span className="text-[11px] text-[#64748B] block mt-0.5">Available 24/7 for quotes & urgent requests</span>
+                      <span className="text-[11px] text-[#64748B] block mt-0.5">Fast turnaround for quotes & requests</span>
                     </div>
                   </div>
 
@@ -95,16 +95,10 @@ export default function ContactPage() {
                       <span className="text-xs font-montserrat font-bold text-[#64748B] uppercase block mb-0.5">Operating Hours</span>
                       <InlineText
                         fieldKey="contact_hours"
-                        defaultValue="Mon – Sat: 6:00 AM – 6:00 PM"
+                        defaultValue="Mon – Sat: 5:00 AM – 8:00 PM"
                         as="span"
                         className="text-base font-semibold text-[#111827] block"
                       />
-                      <div className="mt-1 flex items-center gap-1.5">
-                        <span className="inline-flex items-center bg-safety-orange/15 border border-safety-orange/30 text-[#C2410C] font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wide">
-                          ★ 24/7 On-Call Service
-                        </span>
-                        <span className="text-[11px] text-[#64748B]">Emergency & site clean-ups</span>
-                      </div>
                     </div>
                   </div>
 

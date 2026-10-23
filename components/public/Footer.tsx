@@ -12,7 +12,7 @@ export function Footer() {
   const phone = settings?.phone || '0481 975 170';
   const email = settings?.email || 'info@trashitbros.com.au';
   const serviceArea = settings?.serviceArea || 'Sunshine Coast & Surrounding Regions, QLD';
-  const hours = settings?.hours || 'Mon – Sat: 6:00 AM – 6:00 PM';
+  const hours = settings?.hours || 'Mon – Sat: 5:00 AM – 8:00 PM';
 
   const hideOurWork = hiddenSections?.home_projects || hiddenSections?.nav_our_work;
   const hideServices = hiddenSections?.nav_services;

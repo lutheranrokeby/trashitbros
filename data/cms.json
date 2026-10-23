@@ -1,4 +1,4 @@
-{
+﻿{
   "faqs": [
     {
       "id": "faq-1",
@@ -19,7 +19,7 @@
     {
       "id": "faq-3",
       "order": 3,
-      "answer": "Our rubbish removal services start from just $99.\n\nThe final price depends on the amount and type of rubbish, access to the collection area, labour requirements and disposal costs.\n\nWe'll assess your job and provide a clear quote before getting started, so you know what to expect.\n\nNo unnecessary complications — just fair, straightforward pricing.",
+      "answer": "Our rubbish removal services start from just $99.\n\nThe final price depends on the amount and type of rubbish, access to the collection area, labour requirements and disposal costs.\n\nWe'll assess your job and provide a clear quote before getting started, so you know what to expect.\n\nNo unnecessary complications â€” just fair, straightforward pricing.",
       "category": "Pricing",
       "question": "How is pricing calculated?",
       "published": true
@@ -220,7 +220,7 @@
       "updatedAt": "2026-10-22T23:01:36.657Z",
       "publishedAt": "2026-10-22T04:56:51.710Z",
       "draftContent": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -263,7 +263,7 @@
         "hero_cta_secondary": "Our Services"
       },
       "publishedContent": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -418,13 +418,13 @@
       "badge": "",
       "phone": "0481 975 170",
       "ctaText": "CLAIM THIS OFFER NOW",
-      "summary": "We remove it, load it, dispose of it, and leave the area tidy.",
+      "summary": "Got unwanted rubbish, old furniture, green waste or a garage that needs clearing? We'll take care of the lifting, loading and removal.",
       "headline": "RUBBISH REMOVAL",
       "published": true,
       "flyerImage": "/images/offers/from-99-offer.png",
-      "showOnHome": false,
-      "pricingNote": "Jobs from $99. Send us photos of what needs removing and we'll provide an upfront quote.",
-      "serviceAreas": "Serving the Sunshine Coast, Noosa, and Caboolture.",
+      "showOnHome": true,
+      "pricingNote": "Prices start from $99 for eligible small collections. Final pricing depends on rubbish volume, type, site access and disposal requirements. We'll confirm your price before collection.",
+      "serviceAreas": "Sunshine Coast and surrounding areas.",
       "priceHighlight": "FROM $99",
       "landingPageEnabled": true
     }
@@ -566,7 +566,7 @@
   ],
   "settings": {
     "email": "info@trashitbros.com.au",
-    "hours": "Mon – Sat: 6:00 AM – 6:00 PM (24/7 Service Available)",
+    "hours": "Mon â€“ Sat: 5:00 AM â€“ 8:00 PM",
     "phone": "0481 975 170",
     "address": "Sunshine Coast, QLD, Australia",
     "logoUrl": "/brand/logo-header-transparent.png",
@@ -1463,7 +1463,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1485,7 +1485,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1507,7 +1507,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1529,7 +1529,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1551,7 +1551,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1573,7 +1573,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1595,7 +1595,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1617,7 +1617,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1639,7 +1639,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1661,7 +1661,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1683,7 +1683,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1705,7 +1705,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1727,7 +1727,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1749,7 +1749,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1771,7 +1771,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1793,7 +1793,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1815,7 +1815,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1837,7 +1837,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1859,7 +1859,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1881,7 +1881,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1903,7 +1903,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1925,7 +1925,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1947,7 +1947,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1969,7 +1969,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -1991,7 +1991,7 @@
       "customerType": "Builder/Trade",
       "internalNotes": "",
       "preferredDate": "",
-      "estimatedVolume": "10m³",
+      "estimatedVolume": "10mÂ³",
       "notificationSent": true,
       "additionalDetails": "",
       "preferredTimeframe": ""
@@ -2002,7 +2002,7 @@
       "id": "rev-1792645011710",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -2051,7 +2051,7 @@
       "id": "rev-1792644395087",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -2100,7 +2100,7 @@
       "id": "rev-1792644200050",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -2149,7 +2149,7 @@
       "id": "rev-1792636225895",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -2198,7 +2198,7 @@
       "id": "rev-1792632187889",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -2247,7 +2247,7 @@
       "id": "rev-1792628020395",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
@@ -2296,7 +2296,7 @@
       "id": "rev-1792627256179",
       "author": "Administrator",
       "content": {
-        "feature_1": "6am – 6pm • 24/7 Service",
+        "feature_1": "5am – 8pm Service",
         "feature_2": "All Site Sizes",
         "feature_3": "Competitive Pricing",
         "feature_4": "Responsible Disposal",
