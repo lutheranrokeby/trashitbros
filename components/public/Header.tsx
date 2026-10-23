@@ -210,28 +210,16 @@ export function Header() {
           </Link>
 
           {!hideServices && (
-            <div className="bg-[#14181F]/70 border border-[#343B46]/70 rounded-xl p-3.5 space-y-2">
-              <Link
-                href="/services"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-between font-montserrat text-xs font-bold uppercase tracking-wider text-safety-orange py-1"
-              >
-                <span>All Services</span>
-                <span>View All →</span>
-              </Link>
-              <div className="pt-1.5 space-y-1">
-                {serviceLinks.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2 px-2.5 rounded text-xs font-montserrat font-semibold text-gray-300 hover:text-white hover:bg-white/5"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <Link
+              href="/services"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
+                pathname.startsWith('/services') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span>Services</span>
+              <ArrowRight className="w-4 h-4 opacity-50" />
+            </Link>
           )}
 
           {!hideAbout && (
