@@ -727,7 +727,7 @@ export default function HomePage() {
         {/* SECTION 7: TESTIMONIALS (Light Concrete #F3F4F2 - visually compatible adjoining light surface) */}
         <CMSSection sectionKey="home_testimonials" label="Customer Testimonials">
         {testimonials.length > 0 && (
-          <section className="bg-[#F3F4F2] text-[#111827] pb-16 lg:pb-20">
+          <section className="bg-[#F3F4F2] text-[#111827] py-16 sm:py-20 lg:py-24 border-t border-[#E2E5E9]">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
                 {/* Left Column */}

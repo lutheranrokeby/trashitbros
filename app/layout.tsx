@@ -28,16 +28,19 @@ const inter = Inter({
 
 export async function generateMetadata(): Promise<Metadata> {
   const db = readDatabase();
-  const siteIcon = db.settings.logoUrl || "/brand/logo-icon.jpg";
+  const siteIcon = db.settings.logoUrl || "/brand/logo-header-transparent.png";
 
   return {
     title: "Trash It Bros - Got Rubbish? We'll take it.",
     description:
       "Fast, reliable rubbish removal and construction site clean-ups across the Sunshine Coast, QLD. You build it, we take it.",
     icons: {
-      icon: siteIcon,
-      shortcut: siteIcon,
-      apple: siteIcon,
+      icon: [
+        { url: siteIcon },
+        { url: "/favicon.ico" },
+      ],
+      shortcut: [siteIcon],
+      apple: [siteIcon],
     },
   };
 }
@@ -47,11 +50,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const db = readDatabase();
+  const siteIcon = db.settings.logoUrl || "/brand/logo-header-transparent.png";
+
   return (
     <html
       lang="en"
       className={`${bebasNeue.variable} ${montserrat.variable} ${inter.variable}`}
     >
+      <head>
+        <link rel="icon" href={siteIcon} />
+        <link rel="shortcut icon" href={siteIcon} />
+        <link rel="apple-touch-icon" href={siteIcon} />
+      </head>
       <body className="bg-charcoal text-white font-inter antialiased min-h-screen flex flex-col">
         <CMSProvider>
           <CMSBar />

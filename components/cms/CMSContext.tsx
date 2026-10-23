@@ -141,6 +141,27 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     refreshSettings();
   }, [checkAuth, refreshSettings, pathname]);
 
+  // Dynamically update browser tab favicon if settings.logoUrl changes
+  useEffect(() => {
+    if (typeof document !== 'undefined' && settings?.logoUrl) {
+      let iconLink = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+      if (!iconLink) {
+        iconLink = document.createElement('link');
+        iconLink.rel = 'icon';
+        document.head.appendChild(iconLink);
+      }
+      iconLink.href = settings.logoUrl;
+
+      let shortcutLink = document.querySelector<HTMLLinkElement>("link[rel~='shortcut']");
+      if (!shortcutLink) {
+        shortcutLink = document.createElement('link');
+        shortcutLink.rel = 'shortcut icon';
+        document.head.appendChild(shortcutLink);
+      }
+      shortcutLink.href = settings.logoUrl;
+    }
+  }, [settings?.logoUrl]);
+
   // Read edit mode from URL (?edit=true) or localStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {

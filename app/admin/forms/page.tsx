@@ -56,6 +56,21 @@ function FormsManagerContent() {
 
   const previewContainerRef = useRef<HTMLDivElement>(null);
 
+  const loadSelectedIntoState = useCallback((id: string, list: FormEmbedItem[]) => {
+    const found = list.find((f) => f.id === id);
+    if (found) {
+      setFormName(found.name || '');
+      setFormDesc(found.description || '');
+      setFormPageUrl(found.pageUrl || '');
+      setEmbedCode(found.embedCode || '');
+    } else {
+      setFormName('');
+      setFormDesc('');
+      setFormPageUrl('');
+      setEmbedCode('');
+    }
+  }, []);
+
   const fetchForms = useCallback(async () => {
     try {
       const res = await fetch('/api/cms/forms');
@@ -77,27 +92,12 @@ function FormsManagerContent() {
     } finally {
       setLoading(false);
     }
-  }, [requestedFormId]);
+  }, [requestedFormId, loadSelectedIntoState]);
 
   // Fetch all forms on mount
   useEffect(() => {
     fetchForms();
   }, [fetchForms]);
-
-  const loadSelectedIntoState = (id: string, list = forms) => {
-    const found = list.find((f) => f.id === id);
-    if (found) {
-      setFormName(found.name || '');
-      setFormDesc(found.description || '');
-      setFormPageUrl(found.pageUrl || '');
-      setEmbedCode(found.embedCode || '');
-    } else {
-      setFormName('');
-      setFormDesc('');
-      setFormPageUrl('');
-      setEmbedCode('');
-    }
-  };
 
   // When selected form changes
   const handleSelectForm = (id: string) => {
