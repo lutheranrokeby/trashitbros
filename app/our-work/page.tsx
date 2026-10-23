@@ -18,7 +18,7 @@ export default function OurWorkPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] text-center px-4">
+        <section className="py-14 sm:py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] text-center px-4">
           <div className="max-w-site mx-auto">
             <InlineText
               fieldKey="hero_eyebrow"
@@ -26,7 +26,7 @@ export default function OurWorkPage() {
               as="span"
               className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2"
             />
-            <h1 className="font-bebas text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
+            <h1 className="font-bebas text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
               <InlineText
                 fieldKey="hero_headline_1"
                 defaultValue="REAL PROJECTS."
@@ -52,7 +52,7 @@ export default function OurWorkPage() {
 
         {/* Gallery (Light Concrete #F3F4F2) */}
         <CMSSection sectionKey="our_work_gallery" label="Project Showcase Gallery">
-          <section className="py-16 lg:py-20 bg-[#F3F4F2] text-[#111827]">
+          <section className="py-12 sm:py-16 lg:py-20 bg-[#F3F4F2] text-[#111827]">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
               <ProjectGallery initialProjects={projects} />
             </div>
@@ -61,7 +61,7 @@ export default function OurWorkPage() {
 
         {/* Project CTA (Deep Black #080A0D) */}
         <CMSSection sectionKey="our_work_cta" label="Bottom Call to Action">
-          <section className="py-16 bg-[#080A0D] border-t border-[#343B46] px-4 text-center">
+          <section className="py-12 sm:py-16 bg-[#080A0D] border-t border-[#343B46] px-4 text-center">
             <div className="max-w-site mx-auto max-w-2xl">
               <InlineText
                 fieldKey="cta_heading"
@@ -78,7 +78,7 @@ export default function OurWorkPage() {
               />
               <Link
                 href="/get-a-quote"
-                className="inline-flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs sm:text-sm uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs sm:text-sm uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
               >
                 <InlineText
                   fieldKey="cta_button"

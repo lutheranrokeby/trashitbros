@@ -42,7 +42,7 @@ export default async function OfferLandingPage({ params }: OfferPageProps) {
               <div className="lg:col-span-7 space-y-6">
                 {/* Main Headline */}
                 <div>
-                  <h1 className="font-bebas text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.92] text-white">
+                  <h1 className="font-bebas text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.92] text-white">
                     {currentOffer.headline}{' '}
                     <span className="text-safety-orange inline-block">
                       {currentOffer.priceHighlight}
@@ -51,15 +51,15 @@ export default async function OfferLandingPage({ params }: OfferPageProps) {
                 </div>
 
                 {/* Speech Bubble Hook */}
-                <div className="relative bg-white text-[#111827] rounded-2xl p-5 sm:p-6 shadow-2xl border-2 border-white max-w-xl">
+                <div className="relative bg-white text-[#111827] rounded-2xl p-4 sm:p-6 shadow-2xl border-2 border-white max-w-xl">
                   <div className="hidden sm:block absolute -left-3 top-8 w-0 h-0 border-t-[10px] border-t-transparent border-r-[14px] border-r-white border-b-[10px] border-b-transparent" />
-                  <p className="font-bebas text-2xl sm:text-3xl text-[#111827] tracking-wide leading-tight uppercase">
+                  <p className="font-bebas text-xl sm:text-3xl text-[#111827] tracking-wide leading-tight uppercase">
                     {currentOffer.hook}
                   </p>
                 </div>
 
                 {/* Core Offer Inclusions Card */}
-                <div className="bg-white border-2 border-[#111827] rounded-xl p-5 sm:p-6 text-[#111827] shadow-[6px_6px_0px_rgba(0,0,0,0.85)] space-y-3.5 max-w-xl">
+                <div className="bg-white border-2 border-[#111827] rounded-xl p-4 sm:p-6 text-[#111827] shadow-[6px_6px_0px_rgba(0,0,0,0.85)] space-y-3.5 max-w-xl">
                   <p className="font-inter font-bold text-base sm:text-lg text-[#111827]">
                     {currentOffer.summary}
                   </p>
@@ -81,7 +81,7 @@ export default async function OfferLandingPage({ params }: OfferPageProps) {
               </div>
 
               {/* Right Column: CTA Box linking to Form Section Below */}
-              <div className="lg:col-span-5 bg-[#14181F] border-2 border-safety-orange/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl flex flex-col justify-between">
+              <div className="lg:col-span-5 bg-[#14181F] border-2 border-safety-orange/40 rounded-2xl p-5 sm:p-8 space-y-5 sm:space-y-6 shadow-2xl flex flex-col justify-between">
                 <div className="space-y-3">
                   <span className="text-xs font-montserrat font-bold tracking-widest uppercase text-safety-orange block">
                     FAST &amp; UPFRONT PRICING
@@ -129,7 +129,7 @@ export default async function OfferLandingPage({ params }: OfferPageProps) {
         </section>
 
         {/* CLAIM OFFER SECTION WITH FORM EMBED */}
-        <section id="claim-offer" className="py-16 lg:py-24 bg-[#080A0D] border-t border-[#343B46] text-white">
+        <section id="claim-offer" className="py-12 sm:py-16 lg:py-24 bg-[#080A0D] border-t border-[#343B46] text-white">
           <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mx-auto text-center mb-10">
               <h2 className="font-bebas text-4xl sm:text-5xl text-white tracking-tight leading-none mb-3">
@@ -140,7 +140,7 @@ export default async function OfferLandingPage({ params }: OfferPageProps) {
               </p>
             </div>
 
-            <div className="max-w-2xl mx-auto bg-[#14181F] border border-[#343B46] rounded-2xl p-6 sm:p-8 shadow-2xl">
+            <div className="max-w-2xl mx-auto bg-[#14181F] border border-[#343B46] rounded-2xl p-4 sm:p-8 shadow-2xl">
               <CRMFormEmbed
                 formId="offer-form"
                 defaultName="Promotional Offers Form"

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
 
@@ -64,7 +64,7 @@ export function BeforeAfterSlider({
       onTouchStart={() => setIsDragging(true)}
       onTouchEnd={() => setIsDragging(false)}
       onTouchMove={handleTouchMove}
-      className={`relative select-none overflow-hidden rounded-lg border border-steel-grey shadow-2xl bg-charcoal aspect-video max-h-[500px] cursor-ew-resize focus:outline-none focus:ring-2 focus:ring-safety-orange ${className}`}
+      className={`relative select-none overflow-hidden rounded-lg border border-steel-grey shadow-2xl bg-charcoal aspect-video max-h-[500px] cursor-ew-resize touch-none focus:outline-none focus:ring-2 focus:ring-safety-orange ${className}`}
     >
       {/* After Image (Background) */}
       <img

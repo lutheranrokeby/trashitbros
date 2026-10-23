@@ -73,12 +73,12 @@ export default function ServicesPage() {
             <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#080A0D] via-[#080A0D]/75 to-transparent z-10 pointer-events-none" />
           </div>
 
-          <div className="relative z-20 max-w-site mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 w-full">
+          <div className="relative z-20 max-w-site mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24 w-full">
             <div className="max-w-2xl text-left">
               <span className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-3">
                 <InlineText fieldKey="hero_eyebrow" defaultValue="OUR SERVICES" />
               </span>
-              <h1 className="font-bebas text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
+              <h1 className="font-bebas text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
                 <span className="block text-white">RUBBISH REMOVAL</span>
                 <span className="block text-safety-orange">FOR EVERY PROJECT.</span>
               </h1>
@@ -90,7 +90,7 @@ export default function ServicesPage() {
               </p>
               <Link
                 href="/get-a-quote"
-                className="inline-flex items-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
+                className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
               >
                 <span>GET A FREE QUOTE</span>
                 <ArrowRight className="w-4 h-4" />
@@ -101,7 +101,7 @@ export default function ServicesPage() {
 
         {/* 4 Core Services Overview Grid (Light Concrete #F3F4F2 with White Cards) */}
         <CMSSection sectionKey="services_list" label="Services Overview Grid">
-          <section className="py-20 bg-[#F3F4F2] text-[#111827]">
+          <section className="py-14 sm:py-20 bg-[#F3F4F2] text-[#111827]">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-xl mx-auto mb-16">
                 <span className="text-xs font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2">
@@ -129,7 +129,7 @@ export default function ServicesPage() {
                       </div>
                     </div>
 
-                    <div className="p-8 flex-1 flex flex-col justify-between">
+                    <div className="p-5 sm:p-8 flex-1 flex flex-col justify-between">
                       <div>
                         <h3 className="font-bebas text-3xl sm:text-4xl text-[#111827] mb-3">
                           {service.name}
@@ -176,7 +176,7 @@ export default function ServicesPage() {
 
         {/* Section: What We Can and Cannot Remove (Deep Charcoal #14181F with Steel Cards #242B35) */}
         <CMSSection sectionKey="services_guidelines" label="Acceptable Waste Guidelines">
-          <section className="py-20 bg-[#14181F] text-white border-t border-[#343B46]">
+          <section className="py-14 sm:py-20 bg-[#14181F] text-white border-t border-[#343B46]">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-xl mx-auto mb-16">
                 <span className="text-xs font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2">
@@ -192,7 +192,7 @@ export default function ServicesPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 {/* Accepted Materials */}
-                <div className="bg-[#242B35] border border-[#343B46] rounded-xl p-8 shadow-xl">
+                <div className="bg-[#242B35] border border-[#343B46] rounded-xl p-5 sm:p-8 shadow-xl">
                   <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#343B46]">
                     <div className="w-10 h-10 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-800 flex items-center justify-center">
                       <CheckCircle className="w-5 h-5" />
@@ -280,7 +280,7 @@ export default function ServicesPage() {
 
         {/* Ready to Clear Your Site? (Closing CTA #080A0D) */}
         <CMSSection sectionKey="services_cta" label="Bottom Call to Action">
-          <section className="bg-[#080A0D] text-white py-16 px-4 border-t border-[#343B46]">
+          <section className="bg-[#080A0D] text-white py-12 sm:py-16 px-4 border-t border-[#343B46]">
             <div className="max-w-site mx-auto text-center">
               <h2 className="font-bebas text-4xl sm:text-5xl text-white mb-4">
                 READY TO CLEAR YOUR SITE?
@@ -290,7 +290,7 @@ export default function ServicesPage() {
               </p>
               <Link
                 href="/get-a-quote"
-                className="inline-flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
               >
                 <span>REQUEST A QUOTE</span>
                 <ArrowRight className="w-4 h-4" />

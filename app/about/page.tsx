@@ -20,7 +20,7 @@ export default function AboutPage() {
 
       <main className="flex-1">
         {/* About Hero (Black #080A0D) */}
-        <section className="relative py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] overflow-hidden">
+        <section className="relative py-14 sm:py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] overflow-hidden">
           <div className="absolute inset-0 z-0">
             <InlineImage
               fieldKey="hero_bg_image"
@@ -40,7 +40,7 @@ export default function AboutPage() {
                 as="span"
                 className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-3"
               />
-              <h1 className="font-bebas text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
+              <h1 className="font-bebas text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
                 <InlineText
                   fieldKey="hero_title_1"
                   defaultValue="HARD WORK."
@@ -63,7 +63,7 @@ export default function AboutPage() {
               />
               <Link
                 href="/get-a-quote"
-                className="inline-flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
               >
                 <InlineText
                   fieldKey="hero_cta_text"
@@ -78,7 +78,7 @@ export default function AboutPage() {
 
         {/* Story & Philosophy (Light Concrete #F3F4F2) */}
         <CMSSection sectionKey="about_story" label="Our Philosophy & Story">
-          <section className="py-20 bg-[#F3F4F2] text-[#111827]">
+          <section className="py-14 sm:py-20 bg-[#F3F4F2] text-[#111827]">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 <div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
 
         {/* Core Values (Dark Charcoal #14181F with Steel Cards #242B35) */}
         <CMSSection sectionKey="about_values" label="What Sets Us Apart & Core Values">
-          <section className="py-20 bg-[#14181F] text-white border-t border-[#343B46]">
+          <section className="py-14 sm:py-20 bg-[#14181F] text-white border-t border-[#343B46]">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-xl mx-auto mb-16">
                 <InlineText
@@ -233,7 +233,7 @@ export default function AboutPage() {
 
         {/* Closing CTA (Deep Black #080A0D) */}
         <CMSSection sectionKey="about_cta" label="Bottom Call to Action">
-          <section className="py-16 bg-[#080A0D] text-center px-4 border-t border-[#343B46]">
+          <section className="py-12 sm:py-16 bg-[#080A0D] text-center px-4 border-t border-[#343B46]">
             <div className="max-w-site mx-auto max-w-2xl">
               <InlineText
                 fieldKey="cta_heading"
@@ -250,7 +250,7 @@ export default function AboutPage() {
               />
               <Link
                 href="/get-a-quote"
-                className="inline-flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
+                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
               >
                 <InlineText
                   fieldKey="cta_btn_text"

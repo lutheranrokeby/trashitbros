@@ -32,7 +32,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
       <main className="flex-1">
         {/* Breadcrumb & Hero */}
-        <section className="relative py-16 lg:py-24 bg-[#080A0D] border-b border-[#343B46] overflow-hidden">
+        <section className="relative py-12 sm:py-16 lg:py-24 bg-[#080A0D] border-b border-[#343B46] overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img
               src={service.cardImage}
@@ -54,16 +54,16 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               <span className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2">
                 TRASH IT BROS SERVICE
               </span>
-              <h1 className="font-bebas text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
+              <h1 className="font-bebas text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
                 {service.name}
               </h1>
               <p className="text-gray-300 text-base sm:text-xl leading-relaxed mb-8">
                 {service.shortDescription}
               </p>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
                 <Link
                   href="/get-a-quote"
-                  className="inline-flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
+                  className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase px-8 py-4 rounded transition-all shadow-xl shadow-safety-orange/20"
                 >
                   <span>REQUEST A QUOTE</span>
                   <ArrowRight className="w-4 h-4" />

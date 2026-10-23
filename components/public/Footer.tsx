@@ -18,22 +18,22 @@ export function Footer() {
   return (
     <footer className="bg-near-black text-gray-300 border-t border-steel-grey mt-auto">
       <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
           {/* Column 1: Logo & Mission */}
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <img
                 src={logoSrc}
                 alt="Trash It Bros"
-                className="h-14 w-auto object-contain"
+                className="h-11 sm:h-14 w-auto object-contain max-w-[200px]"
               />
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
               Fast, reliable rubbish removal and construction site clean-ups across the Sunshine Coast, QLD. Hard work, clean results.
             </p>
             <div className="pt-2">
               <div className="inline-flex items-center gap-2 text-xs font-montserrat font-semibold text-safety-orange bg-safety-orange/10 px-3 py-1.5 rounded border border-safety-orange/30">
-                <ShieldCheck className="w-4 h-4" />
+                <ShieldCheck className="w-4 h-4 shrink-0" />
                 <span>YOU BUILD IT. WE TAKE IT.</span>
               </div>
             </div>
@@ -158,9 +158,9 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-steel-grey/60 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
+        <div className="border-t border-steel-grey/60 mt-10 sm:mt-12 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4 text-center sm:text-left">
           <p>© {currentYear} Trash It Bros. All rights reserved. Locally owned & operated on the Sunshine Coast.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-6">
             <Link href="/contact" className="hover:text-white transition-colors">
               Contact
             </Link>

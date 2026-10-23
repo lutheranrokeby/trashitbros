@@ -16,7 +16,7 @@ export default function ContactPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] text-center px-4">
+        <section className="py-14 sm:py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] text-center px-4">
           <div className="max-w-site mx-auto">
             <InlineText
               fieldKey="hero_eyebrow"
@@ -24,7 +24,7 @@ export default function ContactPage() {
               as="span"
               className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2"
             />
-            <h1 className="font-bebas text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
+            <h1 className="font-bebas text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
               <InlineText
                 fieldKey="hero_title_1"
                 defaultValue="TALK TO"
@@ -49,7 +49,7 @@ export default function ContactPage() {
         </section>
 
         {/* Content Section (Light Concrete #F3F4F2) */}
-        <section className="py-14 lg:py-18 bg-[#F3F4F2] text-[#111827]">
+        <section className="py-10 sm:py-14 lg:py-18 bg-[#F3F4F2] text-[#111827]">
           <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               {/* Left Details */}
@@ -71,7 +71,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* White Contact Cards */}
-                <div className="bg-white border border-[#E2E5E9] rounded-xl p-6 sm:p-7 space-y-5 shadow-sm">
+                <div className="bg-white border border-[#E2E5E9] rounded-xl p-4 sm:p-7 space-y-5 shadow-sm">
                   {/* Phone */}
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-[#C2410C] shrink-0">
@@ -156,7 +156,7 @@ export default function ContactPage() {
               </div>
 
               {/* Right Column: CRM Form Embed */}
-              <div className="lg:col-span-7 bg-[#14181F] border border-[#343B46] rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+              <div className="lg:col-span-7 bg-[#14181F] border border-[#343B46] rounded-2xl p-4 sm:p-8 text-white shadow-xl">
                 <div className="mb-6">
                   <InlineText
                     fieldKey="form_cta_eyebrow"

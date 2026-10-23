@@ -133,7 +133,7 @@ export function CRMFormEmbed({
         <div
           ref={containerRef}
           dangerouslySetInnerHTML={{ __html: embedCode }}
-          className="w-full overflow-hidden rounded-xl bg-transparent min-h-[400px]"
+          className="w-full overflow-hidden rounded-xl bg-transparent min-h-[380px] max-w-full [&_iframe]:!w-full [&_iframe]:!max-w-full [&_iframe]:!min-w-0 [&_iframe]:border-0"
         />
       ) : isAdmin ? (
         /* Admin Empty State */

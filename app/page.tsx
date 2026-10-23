@@ -93,7 +93,7 @@ export default function HomePage() {
           </div>
 
           {/* Hero Content - Strictly anchored to reader's left side */}
-          <div className="relative z-20 w-full max-w-site mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 pt-24 pb-16 flex-1 flex flex-col justify-center items-start text-left">
+          <div className="relative z-20 w-full max-w-site mx-auto px-4 sm:px-10 lg:px-14 xl:px-16 pt-16 sm:pt-24 pb-12 sm:pb-16 flex-1 flex flex-col justify-center items-start text-left">
             <div className="w-full max-w-xl lg:max-w-xl xl:max-w-2xl text-left">
               {/* Eyebrow */}
               <div className="flex items-center gap-2 mb-4 text-left">
@@ -106,7 +106,7 @@ export default function HomePage() {
               </div>
 
               {/* Bold Bebas Neue Stacked Headline */}
-              <h1 className="font-bebas text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight leading-[0.92] mb-6 drop-shadow-sm text-left">
+              <h1 className="font-bebas text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6 drop-shadow-sm text-left">
                 <span className="block text-white">
                   <InlineText fieldKey="hero_headline_1" defaultValue="YOU BUILD IT." />
                 </span>
@@ -125,7 +125,7 @@ export default function HomePage() {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 text-left">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 text-left w-full sm:w-auto">
                 <Link
                   href="/get-a-quote"
                   className="group flex items-center justify-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase px-8 py-4 rounded-md transition-all duration-200 shadow-xl shadow-safety-orange/25 hover:shadow-safety-orange/40"
