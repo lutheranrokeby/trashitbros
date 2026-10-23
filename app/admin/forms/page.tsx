@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense, useMemo } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -17,6 +17,8 @@ import {
   Eye,
   Info,
   Sparkles,
+  CloudCheck,
+  Check,
 } from 'lucide-react';
 import { FormEmbedItem } from '@/lib/cms/types';
 
@@ -45,7 +47,8 @@ function FormsManagerContent() {
   const [forms, setForms] = useState<FormEmbedItem[]>([]);
   const [selectedFormId, setSelectedFormId] = useState<string>('quote-form');
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Form draft state for currently selected form
@@ -55,6 +58,21 @@ function FormsManagerContent() {
   const [embedCode, setEmbedCode] = useState('');
 
   const previewContainerRef = useRef<HTMLDivElement>(null);
+
+  const selectedOriginal = useMemo(() => {
+    return forms.find((f) => f.id === selectedFormId);
+  }, [forms, selectedFormId]);
+
+  // Determine if there are unsaved changes
+  const isDirty = useMemo(() => {
+    if (!selectedOriginal) return false;
+    return (
+      (selectedOriginal.name || '') !== formName ||
+      (selectedOriginal.description || '') !== formDesc ||
+      (selectedOriginal.pageUrl || '') !== formPageUrl ||
+      (selectedOriginal.embedCode || '') !== embedCode
+    );
+  }, [selectedOriginal, formName, formDesc, formPageUrl, embedCode]);
 
   const loadSelectedIntoState = useCallback((id: string, list: FormEmbedItem[]) => {
     const found = list.find((f) => f.id === id);
@@ -104,6 +122,7 @@ function FormsManagerContent() {
     setSelectedFormId(id);
     loadSelectedIntoState(id, forms);
     setNotification(null);
+    setSaveStatus('idle');
   };
 
   // Sync preview whenever embedCode changes
@@ -139,7 +158,7 @@ function FormsManagerContent() {
 
   // Save current form
   const handleSave = async () => {
-    setSaving(true);
+    setSaveStatus('saving');
     setNotification(null);
 
     const updatedItem: FormEmbedItem = {
@@ -159,10 +178,14 @@ function FormsManagerContent() {
       });
 
       if (res.ok) {
+        const now = new Date().toLocaleTimeString();
+        setLastSavedAt(now);
+        setSaveStatus('saved');
         setNotification({
           type: 'success',
-          message: `Saved "${updatedItem.name}" embed code! Changes are now live on the website.`,
+          message: `Saved "${updatedItem.name}" embed code! Netlify build queued and changes are live.`,
         });
+
         // Update local list
         setForms((prev) => {
           const index = prev.findIndex((f) => f.id === selectedFormId);
@@ -173,15 +196,26 @@ function FormsManagerContent() {
           }
           return [...prev, updatedItem];
         });
+
+        setTimeout(() => {
+          setSaveStatus((prev) => (prev === 'saved' ? 'idle' : prev));
+        }, 4000);
       } else {
-        const err = await res.json();
-        setNotification({ type: 'error', message: err.error || 'Failed to save form.' });
+        const err = await res.json().catch(() => ({ error: `Failed with status ${res.status}` }));
+        setSaveStatus('error');
+        if (res.status === 401 || res.status === 403) {
+          setNotification({
+            type: 'error',
+            message: 'Session expired or unauthorized. Please re-login to the CMS admin to save changes.',
+          });
+        } else {
+          setNotification({ type: 'error', message: err.error || 'Failed to save form.' });
+        }
       }
     } catch (err: unknown) {
+      setSaveStatus('error');
       const errorMsg = err instanceof Error ? err.message : 'Network error saving form.';
       setNotification({ type: 'error', message: errorMsg });
-    } finally {
-      setSaving(false);
     }
   };
 
@@ -201,21 +235,29 @@ function FormsManagerContent() {
     setFormDesc(newForm.description || '');
     setFormPageUrl(newForm.pageUrl || '');
     setEmbedCode('');
+    setSaveStatus('idle');
   };
 
   const selectedForm = forms.find((f) => f.id === selectedFormId);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-steel-grey/60">
         <div>
           <span className="text-xs font-montserrat font-bold uppercase tracking-wider text-safety-orange">
             CRM & LEAD CAPTURE
           </span>
-          <h1 className="font-bebas text-4xl sm:text-5xl text-white tracking-wide mt-1">
-            FORMS & EMBED CODES
-          </h1>
+          <div className="flex items-center gap-3 mt-1">
+            <h1 className="font-bebas text-4xl sm:text-5xl text-white tracking-wide">
+              FORMS & EMBED CODES
+            </h1>
+            {isDirty && (
+              <span className="text-[11px] font-montserrat font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 animate-pulse">
+                Unsaved Changes
+              </span>
+            )}
+          </div>
           <p className="text-xs sm:text-sm text-gray-400 mt-1 max-w-2xl">
             Manage embedded forms across the website. Paste iframe or script embed codes from your CRM (Lutheran CRM, HubSpot, etc.) to immediately connect forms to your lead workflow.
           </p>
@@ -231,12 +273,20 @@ function FormsManagerContent() {
 
           <button
             onClick={handleSave}
-            disabled={saving}
-            className="flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs uppercase px-5 py-2.5 rounded transition-colors shadow-lg shadow-safety-orange/20 disabled:opacity-50"
+            disabled={saveStatus === 'saving'}
+            className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-5 py-2.5 rounded transition-all shadow-lg disabled:opacity-50 ${
+              saveStatus === 'saved'
+                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
+                : 'bg-safety-orange hover:bg-orange-hover text-white shadow-safety-orange/20'
+            }`}
           >
-            {saving ? (
+            {saveStatus === 'saving' ? (
               <>
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving...
+              </>
+            ) : saveStatus === 'saved' ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5" /> Saved!
               </>
             ) : (
               <>
@@ -247,10 +297,10 @@ function FormsManagerContent() {
         </div>
       </div>
 
-      {/* Notification Toast */}
+      {/* Inline Notification Banner */}
       {notification && (
         <div
-          className={`p-4 rounded-xl border flex items-center justify-between gap-3 ${
+          className={`p-4 rounded-xl border flex items-center justify-between gap-3 transition-all ${
             notification.type === 'success'
               ? 'bg-emerald-950/70 border-emerald-700/80 text-emerald-200'
               : 'bg-red-950/70 border-red-700/80 text-red-200'
@@ -336,7 +386,7 @@ function FormsManagerContent() {
               <Info className="w-4 h-4 text-safety-orange" /> Embedding Instructions
             </div>
             <p className="leading-relaxed">
-              When an admin is logged in or editing the website, a <strong>&quot;Change Form Embed Code&quot;</strong> button appears directly above the form on any page. Clicking it brings you right here to update the code.
+              When you save changes here, the new embed code is securely saved to Supabase and a fresh static build is automatically triggered on Netlify to update live pages across the website.
             </p>
           </div>
         </div>
@@ -349,20 +399,29 @@ function FormsManagerContent() {
                 <span className="text-xs font-montserrat font-bold uppercase text-safety-orange tracking-wider block">
                   EDITING FORM SLOT
                 </span>
-                <h2 className="font-bebas text-3xl text-white tracking-wide mt-0.5">
-                  {formName || selectedFormId}
-                </h2>
+                <div className="flex items-center gap-3 mt-0.5">
+                  <h2 className="font-bebas text-3xl text-white tracking-wide">
+                    {formName || selectedFormId}
+                  </h2>
+                  {isDirty && (
+                    <span className="text-[10px] font-montserrat font-bold uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                      Unsaved
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {formPageUrl && (
-                <Link
-                  href={formPageUrl}
-                  target="_blank"
-                  className="inline-flex items-center gap-1.5 text-xs font-montserrat font-bold text-gray-300 hover:text-safety-orange transition-colors bg-near-black px-3 py-2 rounded border border-steel-grey/80"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" /> View on Live Website
-                </Link>
-              )}
+              <div className="flex items-center gap-2">
+                {formPageUrl && (
+                  <Link
+                    href={formPageUrl}
+                    target="_blank"
+                    className="inline-flex items-center gap-1.5 text-xs font-montserrat font-bold text-gray-300 hover:text-safety-orange transition-colors bg-near-black px-3 py-2 rounded border border-steel-grey/80"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" /> View on Website
+                  </Link>
+                )}
+              </div>
             </div>
 
             {/* Form Meta Fields */}
@@ -449,24 +508,48 @@ function FormsManagerContent() {
               </span>
             </div>
 
-            {/* Bottom Actions */}
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-steel-grey/60">
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={saving}
-                className="flex items-center gap-2 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-xs uppercase px-6 py-3 rounded transition-colors shadow-lg shadow-safety-orange/20 disabled:opacity-50"
-              >
-                {saving ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 animate-spin" /> Saving Form Embed...
-                  </>
+            {/* Bottom Actions with In-Place Feedback */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-steel-grey/60">
+              <div className="text-xs text-gray-400 flex items-center gap-2">
+                {lastSavedAt ? (
+                  <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+                    <Check className="w-3.5 h-3.5" /> Last saved at {lastSavedAt}
+                  </span>
+                ) : isDirty ? (
+                  <span className="text-amber-400 font-medium">
+                    ● You have unsaved changes
+                  </span>
                 ) : (
-                  <>
-                    <Save className="w-4 h-4" /> Save Form Embed Code
-                  </>
+                  <span>Ready to edit</span>
                 )}
-              </button>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  disabled={saveStatus === 'saving'}
+                  className={`flex items-center gap-2 font-montserrat font-bold text-xs uppercase px-6 py-3 rounded transition-all shadow-lg disabled:opacity-50 ${
+                    saveStatus === 'saved'
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
+                      : 'bg-safety-orange hover:bg-orange-hover text-white shadow-safety-orange/20'
+                  }`}
+                >
+                  {saveStatus === 'saving' ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" /> Saving Form Embed...
+                    </>
+                  ) : saveStatus === 'saved' ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" /> Form Embed Saved!
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" /> Save Form Embed Code
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -490,6 +573,17 @@ function FormsManagerContent() {
           </div>
         </div>
       </div>
+
+      {/* Floating Save Status Toast for Uninterrupted Visibility Anywhere on Page */}
+      {saveStatus === 'saved' && (
+        <div className="fixed bottom-6 right-6 z-50 bg-emerald-900 border border-emerald-500 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-bounce">
+          <CheckCircle2 className="w-5 h-5 text-emerald-300 shrink-0" />
+          <div>
+            <p className="font-montserrat font-bold text-xs uppercase">Embed Code Saved!</p>
+            <p className="text-[11px] text-emerald-200">Supabase updated & Netlify build triggered.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

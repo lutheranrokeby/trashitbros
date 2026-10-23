@@ -10,6 +10,38 @@ export function isSupabaseConfigured(): boolean {
 }
 
 /**
+ * Fetch database schema JSON from Supabase site_content table
+ */
+export async function fetchContentFromSupabase(): Promise<DatabaseSchema | null> {
+  if (!isSupabaseConfigured()) {
+    return null;
+  }
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_content?id=eq.${CMS_ROW_ID}&select=data`, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      cache: 'no-store',
+    });
+
+    if (res.ok) {
+      const rows = await res.json();
+      if (Array.isArray(rows) && rows.length > 0 && rows[0].data) {
+        return rows[0].data as DatabaseSchema;
+      }
+    } else {
+      console.warn('⚠️ [Supabase] Fetch error:', res.status, await res.text());
+    }
+  } catch (err) {
+    console.warn('⚠️ [Supabase] Network error fetching content:', err);
+  }
+
+  return null;
+}
+
+/**
  * Save / Upsert database schema JSON to Supabase site_content table
  */
 export async function saveContentToSupabase(contentData: DatabaseSchema): Promise<boolean> {

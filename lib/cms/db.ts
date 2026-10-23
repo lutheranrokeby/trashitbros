@@ -1,4 +1,4 @@
-import { saveContentToSupabase } from './supabase';
+import { saveContentToSupabase, fetchContentFromSupabase } from './supabase';
 import fs from 'fs';
 import path from 'path';
 import { DatabaseSchema, PageData, ServiceItem, ProjectItem, TestimonialItem, FAQItem, QuoteEnquiry, SiteSettings, MediaFile, User } from './types';
@@ -557,7 +557,8 @@ export function readDatabase(): DatabaseSchema {
     return defaultData;
   }
   try {
-    const content = fs.readFileSync(DB_FILE, 'utf8');
+    const rawContent = fs.readFileSync(DB_FILE, 'utf8');
+    const content = rawContent.charCodeAt(0) === 0xFEFF ? rawContent.slice(1) : rawContent;
     const parsed = JSON.parse(content);
     if (!parsed.forms || parsed.forms.length === 0) {
       parsed.forms = getDefaultData().forms;
@@ -567,6 +568,23 @@ export function readDatabase(): DatabaseSchema {
     console.error('Error reading DB, using defaults:', err);
     return getDefaultData();
   }
+}
+
+export async function readDatabaseAsync(): Promise<DatabaseSchema> {
+  const remote = await fetchContentFromSupabase();
+  if (remote) {
+    if (!remote.forms || remote.forms.length === 0) {
+      remote.forms = getDefaultData().forms;
+    }
+    try {
+      ensureDataDir();
+      fs.writeFileSync(DB_FILE, JSON.stringify(remote, null, 2), 'utf8');
+    } catch {
+      // Ignore write errors in read-only serverless container
+    }
+    return remote;
+  }
+  return readDatabase();
 }
 
 export function writeDatabase(data: DatabaseSchema): void {
