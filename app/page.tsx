@@ -9,7 +9,6 @@ import { BeforeAfterSlider } from '@/components/public/BeforeAfterSlider';
 import { readDatabase } from '@/lib/cms/db';
 import {
   ArrowRight,
-  Clock,
   HardHat,
   BadgeDollarSign,
   Recycle,
@@ -144,61 +143,6 @@ export default function HomePage() {
                     <InlineText fieldKey="hero_cta_secondary" defaultValue="OUR SERVICES" />
                   </span>
                 </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Feature Strip at bottom of Hero */}
-          <div className="relative z-20 bg-[#080A0D]/95 border-t border-white/10 backdrop-blur-md py-6">
-            <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#14181F] border border-[#343B46] flex items-center justify-center shrink-0 text-safety-orange">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase text-white block">
-                      <InlineText fieldKey="feature_1" defaultValue="6am – 6pm • 24/7" />
-                    </span>
-                    <span className="text-[11px] text-gray-400">24/7 on-call service bonus</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#14181F] border border-[#343B46] flex items-center justify-center shrink-0 text-safety-orange">
-                    <HardHat className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase text-white block">
-                      <InlineText fieldKey="feature_2" defaultValue="All Site Sizes" />
-                    </span>
-                    <span className="text-[11px] text-gray-400">Residential & Commercial</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#14181F] border border-[#343B46] flex items-center justify-center shrink-0 text-safety-orange">
-                    <BadgeDollarSign className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase text-white block">
-                      <InlineText fieldKey="feature_3" defaultValue="Competitive Pricing" />
-                    </span>
-                    <span className="text-[11px] text-gray-400">Upfront transparent quotes</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#14181F] border border-[#343B46] flex items-center justify-center shrink-0 text-safety-orange">
-                    <Recycle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="font-montserrat font-bold text-xs sm:text-sm tracking-wider uppercase text-white block">
-                      <InlineText fieldKey="feature_4" defaultValue="Responsible Disposal" />
-                    </span>
-                    <span className="text-[11px] text-gray-400">Clean results guaranteed</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
