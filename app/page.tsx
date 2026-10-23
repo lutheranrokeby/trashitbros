@@ -108,7 +108,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Bold Bebas Neue Stacked Headline */}
-                <h1 className="font-bebas text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight leading-[0.92] mb-0 sm:mb-6 drop-shadow-sm text-left">
+                <h1 className="font-bebas text-6xl min-[400px]:text-7xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight leading-[0.90] sm:leading-[0.92] mb-0 sm:mb-6 drop-shadow-sm text-left">
                   <span className="block text-white">
                     <InlineText fieldKey="hero_headline_1" defaultValue="YOU BUILD IT." />
                   </span>
