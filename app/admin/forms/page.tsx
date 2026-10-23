@@ -243,12 +243,17 @@ function FormsManagerContent() {
         const now = new Date().toLocaleTimeString();
         setLastPublishedAt(now);
         setPublishStatus('published');
-        setNotification({
-          type: 'success',
-          message: data.netlifyBuildTriggered
-            ? 'Publish request queued on Netlify! A fresh static build has started and will be live in 1–2 minutes.'
-            : 'Changes published to Supabase! (Netlify build hook triggered).',
-        });
+        if (data.netlifyBuildTriggered) {
+          setNotification({
+            type: 'success',
+            message: 'Netlify deployment started! A fresh static build has been queued and will be live shortly.',
+          });
+        } else {
+          setNotification({
+            type: 'error',
+            message: 'Saved to Supabase, but Netlify build webhook was not reached. Verify NETLIFY_BUILD_HOOK_URL.',
+          });
+        }
 
         setTimeout(() => {
           setPublishStatus((prev) => (prev === 'published' ? 'idle' : prev));
