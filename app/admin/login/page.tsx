@@ -52,7 +52,7 @@ export default function AdminLoginPage() {
             CMS ADMIN PORTAL
           </h1>
           <p className="text-xs text-gray-400 mt-1">
-            Sign in with your Supabase credentials to manage website content, quotes, and media
+            Sign in with your administrator or Supabase credentials
           </p>
         </div>
 
@@ -66,15 +66,15 @@ export default function AdminLoginPage() {
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-xs font-montserrat font-bold uppercase text-gray-300 mb-1.5">
-              Email Address
+              Email or Username
             </label>
             <div className="relative">
               <input
-                type="email"
+                type="text"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@trashitbros.com.au"
+                placeholder="admin@trashitbros.com.au or admin"
                 className="w-full bg-near-black border border-steel-grey rounded px-3 py-2.5 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-safety-orange text-sm"
               />
               <Mail className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
