@@ -2,13 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Phone, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useCMS } from '@/components/cms/CMSContext';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const { hiddenSections, settings } = useCMS();
   const logoSrc = settings?.logoUrl || '/brand/logo-dark-cropped.png';
+  const phone = settings?.phone || '0481 975 170';
+  const email = settings?.email || 'info@trashitbros.com.au';
+  const serviceArea = settings?.serviceArea || 'Sunshine Coast & Surrounding Regions, QLD';
+  const hours = settings?.hours || 'Mon – Sat: 6:00 AM – 6:00 PM';
 
   const hideOurWork = hiddenSections?.home_projects || hiddenSections?.nav_our_work;
   const hideServices = hiddenSections?.nav_services;
@@ -39,8 +43,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Our Services */}
-          <div>
+          {/* Column 2: Our Services (Hidden on mobile viewport as it exists in Quick Links) */}
+          <div className="hidden sm:block">
             <h4 className="font-montserrat font-bold text-white text-base tracking-wider uppercase mb-5 border-l-2 border-safety-orange pl-3">
               Services
             </h4>
@@ -135,23 +139,23 @@ export function Footer() {
             <ul className="space-y-3.5 text-sm">
               <li className="flex items-start gap-3">
                 <Phone className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
-                <a href="tel:0481975170" className="hover:text-safety-orange transition-colors">
-                  0481 975 170
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="hover:text-safety-orange transition-colors">
+                  {phone}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-safety-orange font-bold font-mono text-xs">EMAIL</span>
-                <a href="mailto:info@trashitbros.com.au" className="hover:text-safety-orange transition-colors break-all">
-                  info@trashitbros.com.au
+                <Mail className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
+                <a href={`mailto:${email}`} className="hover:text-safety-orange transition-colors break-all">
+                  {email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-safety-orange font-bold font-mono text-xs">REGION</span>
-                <span>Sunshine Coast & Surrounding Regions, QLD</span>
+                <MapPin className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
+                <span>{serviceArea}</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-safety-orange font-bold font-mono text-xs">HOURS</span>
-                <span>Mon – Sat: 6am – 6pm (24/7 Available)</span>
+                <Clock className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
+                <span>{hours}</span>
               </li>
             </ul>
           </div>

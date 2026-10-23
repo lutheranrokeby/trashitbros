@@ -45,8 +45,18 @@ export function Header() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  // Close mobile menu on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 bg-black/95 backdrop-blur-md border-b border-white/5 transition-colors">
+    <>
+      <header className="sticky top-0 z-50 bg-[#080A0D] border-b border-white/10 transition-colors">
       <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Logo - transparent blend with black header */}
         <Link href="/" className="flex items-center group shrink-0">
@@ -172,8 +182,9 @@ export function Header() {
           </a>
 
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-200 hover:text-safety-orange transition-colors rounded-md focus:outline-none focus:ring-2 focus:ring-safety-orange/40"
+            type="button"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-200 hover:text-safety-orange transition-colors rounded-md focus:outline-none focus:ring-2 focus:ring-safety-orange/40 cursor-pointer"
             aria-label="Toggle Navigation Menu"
             aria-expanded={mobileMenuOpen}
           >
@@ -181,119 +192,120 @@ export function Header() {
           </button>
         </div>
       </div>
-
-      {/* Mobile Drawer Navigation with Smooth Scroll */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-black/98 border-t border-steel-grey/60 z-50 flex flex-col justify-between overflow-y-auto overscroll-contain">
-          <div className="px-5 py-6 space-y-4">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
-                isActive('/') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <span>Home</span>
-              <ArrowRight className="w-4 h-4 opacity-50" />
-            </Link>
-
-            {!hideServices && (
-              <div className="bg-[#14181F]/70 border border-[#343B46]/70 rounded-xl p-3.5 space-y-2">
-                <Link
-                  href="/services"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between font-montserrat text-xs font-bold uppercase tracking-wider text-safety-orange py-1"
-                >
-                  <span>All Services</span>
-                  <span>View All →</span>
-                </Link>
-                <div className="pt-1.5 space-y-1">
-                  {serviceLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block py-2 px-2.5 rounded text-xs font-montserrat font-semibold text-gray-300 hover:text-white hover:bg-white/5"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {!hideAbout && (
-              <Link
-                href="/about"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
-                  isActive('/about') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <span>About</span>
-                <ArrowRight className="w-4 h-4 opacity-50" />
-              </Link>
-            )}
-
-            {!hideOurWork && (
-              <Link
-                href="/our-work"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
-                  isActive('/our-work') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <span>Our Work</span>
-                <ArrowRight className="w-4 h-4 opacity-50" />
-              </Link>
-            )}
-
-            {!hideFaq && (
-              <Link
-                href="/faq"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
-                  isActive('/faq') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <span>FAQ</span>
-                <ArrowRight className="w-4 h-4 opacity-50" />
-              </Link>
-            )}
-
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
-                isActive('/contact') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <span>Contact</span>
-              <ArrowRight className="w-4 h-4 opacity-50" />
-            </Link>
-          </div>
-
-          {/* Bottom Action Stack */}
-          <div className="p-5 border-t border-[#343B46] bg-[#080A0D] space-y-3 mt-auto">
-            <Link
-              href="/get-a-quote"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase py-3.5 rounded-lg shadow-lg shadow-safety-orange/20 transition-colors"
-            >
-              <span>Get a Free Quote</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <a
-              href={`tel:${phone.replace(/\s+/g, '')}`}
-              className="flex items-center justify-center gap-2 w-full bg-[#14181F] hover:bg-[#1F2633] text-white border border-[#343B46] font-montserrat font-bold text-sm tracking-wider uppercase py-3 rounded-lg transition-colors"
-            >
-              <Phone className="w-4 h-4 text-safety-orange" />
-              <span>Call {phone}</span>
-            </a>
-          </div>
-        </div>
-      )}
     </header>
-  );
+
+    {/* Mobile Drawer Navigation with Smooth Scroll (Sibling to header to avoid stacking context traps) */}
+    {mobileMenuOpen && (
+      <div className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bottom-0 bg-[#080A0D]/98 backdrop-blur-xl border-t border-steel-grey/60 z-50 flex flex-col justify-between overflow-y-auto overscroll-contain">
+        <div className="px-5 py-6 space-y-4">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
+              isActive('/') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>Home</span>
+            <ArrowRight className="w-4 h-4 opacity-50" />
+          </Link>
+
+          {!hideServices && (
+            <div className="bg-[#14181F]/70 border border-[#343B46]/70 rounded-xl p-3.5 space-y-2">
+              <Link
+                href="/services"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between font-montserrat text-xs font-bold uppercase tracking-wider text-safety-orange py-1"
+              >
+                <span>All Services</span>
+                <span>View All →</span>
+              </Link>
+              <div className="pt-1.5 space-y-1">
+                {serviceLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-2 px-2.5 rounded text-xs font-montserrat font-semibold text-gray-300 hover:text-white hover:bg-white/5"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!hideAbout && (
+            <Link
+              href="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
+                isActive('/about') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span>About</span>
+              <ArrowRight className="w-4 h-4 opacity-50" />
+            </Link>
+          )}
+
+          {!hideOurWork && (
+            <Link
+              href="/our-work"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
+                isActive('/our-work') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span>Our Work</span>
+              <ArrowRight className="w-4 h-4 opacity-50" />
+            </Link>
+          )}
+
+          {!hideFaq && (
+            <Link
+              href="/faq"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
+                isActive('/faq') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span>FAQ</span>
+              <ArrowRight className="w-4 h-4 opacity-50" />
+            </Link>
+          )}
+
+          <Link
+            href="/contact"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`flex items-center justify-between py-3 px-3 rounded-lg font-montserrat text-base font-bold tracking-wider transition-colors ${
+              isActive('/contact') ? 'bg-safety-orange/15 text-safety-orange' : 'text-gray-200 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>Contact</span>
+            <ArrowRight className="w-4 h-4 opacity-50" />
+          </Link>
+        </div>
+
+        {/* Bottom Action Stack */}
+        <div className="p-5 border-t border-[#343B46] bg-[#080A0D] space-y-3 mt-auto">
+          <Link
+            href="/get-a-quote"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-center gap-2 w-full bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase py-3.5 rounded-lg shadow-lg shadow-safety-orange/20 transition-colors"
+          >
+            <span>Get a Free Quote</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+
+          <a
+            href={`tel:${phone.replace(/\s+/g, '')}`}
+            className="flex items-center justify-center gap-2 w-full bg-[#14181F] hover:bg-[#1F2633] text-white border border-[#343B46] font-montserrat font-bold text-sm tracking-wider uppercase py-3 rounded-lg transition-colors"
+          >
+            <Phone className="w-4 h-4 text-safety-orange" />
+            <span>Call {phone}</span>
+          </a>
+        </div>
+      </div>
+    )}
+  </>
+);
 }
