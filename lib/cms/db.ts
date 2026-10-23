@@ -26,6 +26,7 @@ function getDefaultData(): DatabaseSchema {
     notificationEmail: 'quotes@trashitbros.com.au',
     instagram: 'https://instagram.com/trashitbros',
     facebook: 'https://facebook.com/trashitbros',
+    logoUrl: '/brand/logo-header-transparent.png',
   };
 
   const initialServices: ServiceItem[] = [
@@ -451,6 +452,98 @@ function getDefaultData(): DatabaseSchema {
     enquiries: [],
     settings: initialSettings,
     media: initialMedia,
+    offers: [
+      {
+        id: 'offer-1',
+        slug: 'initial-offer',
+        badge: '',
+        headline: 'RUBBISH REMOVAL',
+        priceHighlight: 'FROM $99',
+        hook: 'GOT RUBBISH, OLD FURNITURE, GREEN WASTE, OR A GARAGE THAT NEEDS CLEARING?',
+        summary: 'We remove it, load it, dispose of it, and leave the area tidy.',
+        serviceAreas: 'Serving the Sunshine Coast, Noosa, and Caboolture.',
+        pricingNote: "Jobs from $99. Send us photos of what needs removing and we'll provide an upfront quote.",
+        ctaText: 'CLAIM THIS OFFER NOW',
+        phone: '0481 975 170',
+        showOnHome: true,
+        landingPageEnabled: true,
+        published: true,
+      },
+    ],
+    forms: [
+      {
+        id: 'quote-form',
+        name: 'Get a Quote Form',
+        description: 'Primary customer quote enquiry form embedded on the Get a Quote page.',
+        pageUrl: '/get-a-quote',
+        embedCode: `<iframe
+  id="lcrm-form-11d189de"
+  src="https://lutheran.netlify.app/portal/forms/11d189de-8cd7-4cb9-b2af-31f1a8986654?embed=true"
+  width="100%"
+  height="680"
+  style="border:none; width:100%; overflow:hidden;"
+  loading="lazy"
+  title="Connect with us!"
+></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'LCRM_FORM_RESIZE' && e.data.templateId === '11d189de-8cd7-4cb9-b2af-31f1a8986654') {
+      var el = document.getElementById('lcrm-form-11d189de');
+      if (el && e.data.height) el.style.height = e.data.height + 'px';
+    }
+  });
+</script>`,
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: 'contact-form',
+        name: 'Contact Us Form',
+        description: 'General enquiries and message form embedded on the Contact Us page.',
+        pageUrl: '/contact',
+        embedCode: `<iframe
+  id="lcrm-form-11d189de"
+  src="https://lutheran.netlify.app/portal/forms/11d189de-8cd7-4cb9-b2af-31f1a8986654?embed=true"
+  width="100%"
+  height="680"
+  style="border:none; width:100%; overflow:hidden;"
+  loading="lazy"
+  title="Connect with us!"
+></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'LCRM_FORM_RESIZE' && e.data.templateId === '11d189de-8cd7-4cb9-b2af-31f1a8986654') {
+      var el = document.getElementById('lcrm-form-11d189de');
+      if (el && e.data.height) el.style.height = e.data.height + 'px';
+    }
+  });
+</script>`,
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: 'offer-form',
+        name: 'Promotional Offers Form',
+        description: 'Lead capture form displayed on offer landing pages (e.g. /offers/initial-offer).',
+        pageUrl: '/offers/initial-offer',
+        embedCode: `<iframe
+  id="lcrm-form-11d189de"
+  src="https://lutheran.netlify.app/portal/forms/11d189de-8cd7-4cb9-b2af-31f1a8986654?embed=true"
+  width="100%"
+  height="680"
+  style="border:none; width:100%; overflow:hidden;"
+  loading="lazy"
+  title="Connect with us!"
+></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'LCRM_FORM_RESIZE' && e.data.templateId === '11d189de-8cd7-4cb9-b2af-31f1a8986654') {
+      var el = document.getElementById('lcrm-form-11d189de');
+      if (el && e.data.height) el.style.height = e.data.height + 'px';
+    }
+  });
+</script>`,
+        updatedAt: new Date().toISOString(),
+      },
+    ],
     users: [],
     revisions: [],
   };
@@ -465,7 +558,11 @@ export function readDatabase(): DatabaseSchema {
   }
   try {
     const content = fs.readFileSync(DB_FILE, 'utf8');
-    return JSON.parse(content);
+    const parsed = JSON.parse(content);
+    if (!parsed.forms || parsed.forms.length === 0) {
+      parsed.forms = getDefaultData().forms;
+    }
+    return parsed;
   } catch (err) {
     console.error('Error reading DB, using defaults:', err);
     return getDefaultData();

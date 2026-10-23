@@ -97,6 +97,8 @@ export interface SiteSettings {
   notificationEmail: string;
   instagram: string;
   facebook: string;
+  logoUrl?: string;
+  hiddenSections?: Record<string, boolean>;
 }
 
 export interface MediaFile {
@@ -108,6 +110,32 @@ export interface MediaFile {
   width?: number;
   height?: number;
   uploadedAt: string;
+}
+
+export interface OfferItem {
+  id: string;
+  slug: string;
+  badge: string;
+  headline: string;
+  priceHighlight: string;
+  hook: string;
+  summary: string;
+  serviceAreas: string;
+  pricingNote: string;
+  ctaText: string;
+  phone: string;
+  showOnHome: boolean;
+  landingPageEnabled: boolean;
+  published: boolean;
+}
+
+export interface FormEmbedItem {
+  id: string;
+  name: string;
+  description?: string;
+  pageUrl?: string;
+  embedCode: string;
+  updatedAt?: string;
 }
 
 export interface User {
@@ -127,6 +155,8 @@ export interface DatabaseSchema {
   enquiries: QuoteEnquiry[];
   settings: SiteSettings;
   media: MediaFile[];
+  offers?: OfferItem[];
+  forms?: FormEmbedItem[];
   users: User[];
   revisions: Array<{
     id: string;

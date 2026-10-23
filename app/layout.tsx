@@ -3,6 +3,7 @@ import { Bebas_Neue, Montserrat, Inter } from "next/font/google";
 import "./globals.css";
 import { CMSProvider } from "@/components/cms/CMSContext";
 import { CMSBar } from "@/components/cms/CMSBar";
+import { readDatabase } from "@/lib/cms/db";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -25,14 +26,21 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Trash It Bros | Construction Site Clean-Ups & Rubbish Removal",
-  description:
-    "Fast, reliable rubbish removal and construction site clean-ups across the Sunshine Coast, QLD. You build it, we take it.",
-  icons: {
-    icon: "/brand/logo-icon.jpg",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const db = readDatabase();
+  const siteIcon = db.settings.logoUrl || "/brand/logo-icon.jpg";
+
+  return {
+    title: "Trash It Bros - Got Rubbish? We'll take it.",
+    description:
+      "Fast, reliable rubbish removal and construction site clean-ups across the Sunshine Coast, QLD. You build it, we take it.",
+    icons: {
+      icon: siteIcon,
+      shortcut: siteIcon,
+      apple: siteIcon,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

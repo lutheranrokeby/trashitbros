@@ -65,6 +65,32 @@
       "published": true
     }
   ],
+  "forms": [
+    {
+      "id": "quote-form",
+      "name": "Get a Quote Form",
+      "pageUrl": "/get-a-quote",
+      "embedCode": "<iframe\n  id=\"lcrm-form-11d189de\"\n  src=\"https://lutheran.netlify.app/portal/forms/11d189de-8cd7-4cb9-b2af-31f1a8986654?embed=true\"\n  width=\"100%\"\n  height=\"680\"\n  style=\"border:none; width:100%; overflow:hidden;\"\n  loading=\"lazy\"\n  title=\"Connect with us!\"\n></iframe>\n<script>\n  window.addEventListener('message', function(e) {\n    if (e.data && e.data.type === 'LCRM_FORM_RESIZE' && e.data.templateId === '11d189de-8cd7-4cb9-b2af-31f1a8986654') {\n      var el = document.getElementById('lcrm-form-11d189de');\n      if (el && e.data.height) el.style.height = e.data.height + 'px';\n    }\n  });\n</script>",
+      "updatedAt": "2026-10-22T23:58:48.367Z",
+      "description": "Primary customer quote enquiry form embedded on the Get a Quote page."
+    },
+    {
+      "id": "contact-form",
+      "name": "Contact Us Form",
+      "pageUrl": "/contact",
+      "embedCode": "<iframe\n  id=\"lcrm-form-11d189de\"\n  src=\"https://lutheran.netlify.app/portal/forms/11d189de-8cd7-4cb9-b2af-31f1a8986654?embed=true\"\n  width=\"100%\"\n  height=\"680\"\n  style=\"border:none; width:100%; overflow:hidden;\"\n  loading=\"lazy\"\n  title=\"Connect with us!\"\n></iframe>\n<script>\n  window.addEventListener('message', function(e) {\n    if (e.data && e.data.type === 'LCRM_FORM_RESIZE' && e.data.templateId === '11d189de-8cd7-4cb9-b2af-31f1a8986654') {\n      var el = document.getElementById('lcrm-form-11d189de');\n      if (el && e.data.height) el.style.height = e.data.height + 'px';\n    }\n  });\n</script>",
+      "updatedAt": "2026-10-22T23:54:46.080Z",
+      "description": "General enquiries and message form embedded on the Contact Us page."
+    },
+    {
+      "id": "offer-form",
+      "name": "Promotional Offers Form",
+      "pageUrl": "/offers/initial-offer",
+      "embedCode": "<iframe\n  id=\"lcrm-form-fa1d892c\"\n  src=\"http://localhost:3001/portal/forms/fa1d892c-5713-495f-8378-57e693b003a8?embed=true\"\n  width=\"100%\"\n  height=\"680\"\n  style=\"border:none; width:100%; overflow:hidden;\"\n  loading=\"lazy\"\n  title=\"Sign-Up\"\n></iframe>\n<script>\n  window.addEventListener('message', function(e) {\n    if (e.data && e.data.type === 'LCRM_FORM_RESIZE' && e.data.templateId === 'fa1d892c-5713-495f-8378-57e693b003a8') {\n      var el = document.getElementById('lcrm-form-fa1d892c');\n      if (el && e.data.height) el.style.height = e.data.height + 'px';\n    }\n  });\n</script>",
+      "updatedAt": "2026-10-23T00:23:49.421Z",
+      "description": "Lead capture form displayed on offer landing pages (e.g. /offers/initial-offer)."
+    }
+  ],
   "media": [
     {
       "id": "med_about_construction_truck",
@@ -168,7 +194,7 @@
   "pages": {
     "faq": {
       "seo": {
-        "title": "FAQs | Trash It Bros Rubbish Removal",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "Got questions about rubbish removal, quotes, acceptable materials, or booking? Find answers here."
       },
       "slug": "faq",
@@ -186,12 +212,12 @@
     },
     "home": {
       "seo": {
-        "title": "Trash It Bros | Construction Site Clean-Ups & Rubbish Removal Sunshine Coast",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "Fast, reliable rubbish removal for construction sites, renovations, commercial properties and homes. You build it, we take it."
       },
       "slug": "home",
       "title": "Home",
-      "updatedAt": "2026-10-22T04:56:51.710Z",
+      "updatedAt": "2026-10-22T23:01:36.657Z",
       "publishedAt": "2026-10-22T04:56:51.710Z",
       "draftContent": {
         "feature_1": "6am – 6pm • 24/7 Service",
@@ -282,7 +308,7 @@
     },
     "about": {
       "seo": {
-        "title": "About Us | Trash It Bros Sunshine Coast",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "Hard work, clean results. Learn how Trash It Bros keeps Sunshine Coast construction sites, businesses, and homes tidy."
       },
       "slug": "about",
@@ -306,7 +332,7 @@
     },
     "contact": {
       "seo": {
-        "title": "Contact Trash It Bros | Sunshine Coast Rubbish Removal",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "Get in touch with Trash It Bros for quotes, enquiries, and rubbish collection scheduling."
       },
       "slug": "contact",
@@ -324,7 +350,7 @@
     },
     "our-work": {
       "seo": {
-        "title": "Our Work & Projects | Trash It Bros",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "See before and after results from our construction site clean-ups and waste removal projects."
       },
       "slug": "our-work",
@@ -342,7 +368,7 @@
     },
     "services": {
       "seo": {
-        "title": "Rubbish Removal Services | Trash It Bros Sunshine Coast",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "Comprehensive rubbish removal for construction sites, renovations, commercial properties, and residential clean-ups."
       },
       "slug": "services",
@@ -366,7 +392,7 @@
     },
     "get-a-quote": {
       "seo": {
-        "title": "Request a Quote | Trash It Bros",
+        "title": "Trash It Bros - Got Rubbish? We'll take it.",
         "description": "Upload photos and request a fast, free quote for your rubbish removal project."
       },
       "slug": "get-a-quote",
@@ -384,6 +410,25 @@
     }
   },
   "users": [],
+  "offers": [
+    {
+      "id": "offer-1",
+      "hook": "GOT RUBBISH, OLD FURNITURE, GREEN WASTE, OR A GARAGE THAT NEEDS CLEARING?",
+      "slug": "initial-offer",
+      "badge": "",
+      "phone": "0481 975 170",
+      "ctaText": "CLAIM THIS OFFER NOW",
+      "summary": "We remove it, load it, dispose of it, and leave the area tidy.",
+      "headline": "RUBBISH REMOVAL",
+      "published": true,
+      "flyerImage": "/images/offers/from-99-offer.png",
+      "showOnHome": false,
+      "pricingNote": "Jobs from $99. Send us photos of what needs removing and we'll provide an upfront quote.",
+      "serviceAreas": "Serving the Sunshine Coast, Noosa, and Caboolture.",
+      "priceHighlight": "FROM $99",
+      "landingPageEnabled": true
+    }
+  ],
   "projects": [
     {
       "id": "proj-1",
@@ -524,10 +569,15 @@
     "hours": "Mon – Sat: 6:00 AM – 6:00 PM (24/7 Service Available)",
     "phone": "0481 975 170",
     "address": "Sunshine Coast, QLD, Australia",
+    "logoUrl": "/brand/logo-header-transparent.png",
     "facebook": "https://facebook.com/trashitbros",
     "instagram": "https://instagram.com/trashitbros",
     "companyName": "Trash It Bros",
     "serviceArea": "Sunshine Coast & Surrounding Regions, QLD",
+    "hiddenSections": {
+      "nav_our_work": true,
+      "home_projects": true
+    },
     "primaryHeadline": "YOU BUILD IT. WE TAKE IT.",
     "notificationEmail": "quotes@trashitbros.com.au"
   },

@@ -2,10 +2,18 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Phone, Mail, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Phone, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useCMS } from '@/components/cms/CMSContext';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { hiddenSections, settings } = useCMS();
+  const logoSrc = settings?.logoUrl || '/brand/logo-dark-cropped.png';
+
+  const hideOurWork = hiddenSections?.home_projects || hiddenSections?.nav_our_work;
+  const hideServices = hiddenSections?.nav_services;
+  const hideAbout = hiddenSections?.nav_about;
+  const hideFaq = hiddenSections?.nav_faq;
 
   return (
     <footer className="bg-near-black text-gray-300 border-t border-steel-grey mt-auto">
@@ -15,7 +23,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <img
-                src="/brand/logo-dark-cropped.png"
+                src={logoSrc}
                 alt="Trash It Bros"
                 className="h-14 w-auto object-contain"
               />
@@ -31,7 +39,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Our Services (NO rubbish collection!) */}
+          {/* Column 2: Our Services */}
           <div>
             <h4 className="font-montserrat font-bold text-white text-base tracking-wider uppercase mb-5 border-l-2 border-safety-orange pl-3">
               Services
@@ -83,26 +91,34 @@ export function Footer() {
                   Home
                 </Link>
               </li>
-              <li>
-                <Link href="/services" className="hover:text-safety-orange transition-colors">
-                  All Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-safety-orange transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/our-work" className="hover:text-safety-orange transition-colors">
-                  Our Work (Projects)
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-safety-orange transition-colors">
-                  Frequently Asked Questions
-                </Link>
-              </li>
+              {!hideServices && (
+                <li>
+                  <Link href="/services" className="hover:text-safety-orange transition-colors">
+                    All Services
+                  </Link>
+                </li>
+              )}
+              {!hideAbout && (
+                <li>
+                  <Link href="/about" className="hover:text-safety-orange transition-colors">
+                    About Us
+                  </Link>
+                </li>
+              )}
+              {!hideOurWork && (
+                <li>
+                  <Link href="/our-work" className="hover:text-safety-orange transition-colors">
+                    Our Work (Projects)
+                  </Link>
+                </li>
+              )}
+              {!hideFaq && (
+                <li>
+                  <Link href="/faq" className="hover:text-safety-orange transition-colors">
+                    Frequently Asked Questions
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/get-a-quote" className="hover:text-safety-orange transition-colors font-bold text-safety-orange">
                   Request a Free Quote →
@@ -124,40 +140,32 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
-                <span>info@trashitbros.com.au</span>
+                <span className="text-safety-orange font-bold font-mono text-xs">EMAIL</span>
+                <a href="mailto:info@trashitbros.com.au" className="hover:text-safety-orange transition-colors break-all">
+                  info@trashitbros.com.au
+                </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
+                <span className="text-safety-orange font-bold font-mono text-xs">REGION</span>
                 <span>Sunshine Coast & Surrounding Regions, QLD</span>
               </li>
               <li className="flex items-start gap-3">
-                <Clock className="w-4 h-4 text-safety-orange shrink-0 mt-0.5" />
-                <div>
-                  <span className="block text-gray-200">Mon – Sat: 6:00 AM – 6:00 PM</span>
-                  <span className="inline-flex items-center gap-1 mt-1 bg-safety-orange/15 border border-safety-orange/40 text-safety-orange font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wide">
-                    ★ 24/7 On-Call Available
-                  </span>
-                </div>
+                <span className="text-safety-orange font-bold font-mono text-xs">HOURS</span>
+                <span>Mon – Sat: 6am – 6pm (24/7 Available)</span>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-steel-grey/60 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <div>
-            © {currentYear} Trash It Bros. All rights reserved. Australian Business.
-          </div>
+        <div className="border-t border-steel-grey/60 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-4">
+          <p>© {currentYear} Trash It Bros. All rights reserved. Locally owned & operated on the Sunshine Coast.</p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="hover:text-gray-300 transition-colors">
-              Privacy Policy
+            <Link href="/contact" className="hover:text-white transition-colors">
+              Contact
             </Link>
-            <Link href="/terms-and-conditions" className="hover:text-gray-300 transition-colors">
-              Terms & Conditions
-            </Link>
-            <Link href="/admin/login" className="hover:text-safety-orange transition-colors">
-              Admin Portal
+            <Link href="/admin" className="hover:text-safety-orange text-gray-500 transition-colors">
+              CMS Admin
             </Link>
           </div>
         </div>

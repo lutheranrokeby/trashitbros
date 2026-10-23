@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useCMS } from '@/components/cms/CMSContext';
 import {
   LayoutDashboard,
-  Inbox,
+  Tag,
   Briefcase,
   Layers,
   HelpCircle,
@@ -19,11 +19,13 @@ import {
   X,
   Edit3,
   Loader2,
+  FormInput,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/enquiries', label: 'Quote Enquiries', icon: Inbox },
+  { href: '/admin/offers', label: 'Offers & Promos', icon: Tag },
+  { href: '/admin/forms', label: 'Forms & Embeds', icon: FormInput },
   { href: '/admin/services', label: 'Services', icon: Layers },
   { href: '/admin/projects', label: 'Projects', icon: Briefcase },
   { href: '/admin/faqs', label: 'FAQs', icon: HelpCircle },
@@ -35,7 +37,8 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, loading, logout, setEditMode } = useCMS();
+  const { user, loading, logout, setEditMode, settings } = useCMS();
+  const logoSrc = settings?.logoUrl || '/brand/logo-dark-cropped.png';
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Route protection: if done loading and user is not authenticated, redirect to /admin/login
@@ -72,7 +75,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Top Header */}
       <div className="md:hidden bg-charcoal border-b border-steel-grey px-4 py-3 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-2">
-          <img src="/brand/logo-dark-cropped.png" alt="Logo" className="h-8 w-auto" />
+          <img src={logoSrc} alt="Logo" className="h-8 w-auto object-contain" />
           <span className="font-montserrat font-bold text-xs tracking-wider uppercase text-safety-orange">
             CMS Admin
           </span>
@@ -96,7 +99,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="p-6 border-b border-steel-grey/60">
             <Link href="/" className="block mb-2">
               <img
-                src="/brand/logo-dark-cropped.png"
+                src={logoSrc}
                 alt="Trash It Bros Logo"
                 className="h-10 w-auto object-contain"
               />

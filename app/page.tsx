@@ -4,6 +4,7 @@ import { Header } from '@/components/public/Header';
 import { Footer } from '@/components/public/Footer';
 import { InlineText } from '@/components/cms/InlineText';
 import { InlineImage } from '@/components/cms/InlineImage';
+import { CMSSection } from '@/components/cms/CMSSection';
 import { BeforeAfterSlider } from '@/components/public/BeforeAfterSlider';
 import { readDatabase } from '@/lib/cms/db';
 import {
@@ -22,6 +23,7 @@ import {
   ChevronRight,
   Star,
   Phone,
+  MapPin,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -29,6 +31,7 @@ export default function HomePage() {
   const services = db.services.filter((s) => s.published);
   const featuredProject = db.projects.find((p) => p.featured) || db.projects[0];
   const testimonials = db.testimonials.filter((t) => t.published);
+  const activeOffer = db.offers?.find((o) => o.showOnHome && o.published);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#080A0D] text-white">
@@ -201,7 +204,105 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* SECTION: SPECIAL PROMOTIONAL OFFER (Directly below Hero) */}
+        {activeOffer && (
+          <CMSSection sectionKey="home_offer" label="Special Offer Promotion">
+            <section className="relative bg-gradient-to-b from-[#080A0D] via-[#14181F] to-[#080A0D] border-y border-[#343B46] py-12 lg:py-16 overflow-hidden">
+              <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="bg-[#080A0D] border-2 border-safety-orange/40 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-2xl">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    
+                    {/* Left Details */}
+                    <div className="lg:col-span-7 space-y-5">
+                      <h2 className="font-bebas text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92]">
+                        {activeOffer.headline}{' '}
+                        <span className="text-safety-orange">{activeOffer.priceHighlight}</span>
+                      </h2>
+
+                      {/* Speech Bubble Hook */}
+                      <div className="relative bg-white text-[#111827] rounded-2xl p-5 sm:p-6 shadow-2xl border-2 border-white max-w-xl">
+                        <div className="hidden sm:block absolute -left-3 top-8 w-0 h-0 border-t-[10px] border-t-transparent border-r-[14px] border-r-white border-b-[10px] border-b-transparent" />
+                        <p className="font-bebas text-2xl sm:text-3xl text-[#111827] tracking-wide leading-tight uppercase">
+                          {activeOffer.hook}
+                        </p>
+                      </div>
+
+                      {/* Core Inclusions Box with Drop Shadow */}
+                      <div className="bg-white border-2 border-[#111827] rounded-xl p-5 sm:p-6 text-[#111827] shadow-[6px_6px_0px_rgba(0,0,0,0.85)] space-y-3 max-w-xl">
+                        <p className="font-inter font-bold text-base sm:text-lg text-[#111827]">
+                          {activeOffer.summary}
+                        </p>
+
+                        <div className="flex items-center gap-2 text-sm text-[#334155] font-semibold">
+                          <MapPin className="w-4 h-4 text-safety-orange shrink-0" />
+                          <span>{activeOffer.serviceAreas}</span>
+                        </div>
+
+                        <div className="pt-2 border-t border-gray-200">
+                          <p className="text-xs sm:text-sm text-[#334155] leading-relaxed">
+                            <span className="bg-[#111827] text-white font-mono font-bold px-2 py-0.5 rounded text-xs uppercase mr-1.5">
+                              Jobs from $99
+                            </span>
+                            {activeOffer.pricingNote}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column: CTA Box linking to form section below */}
+                    <div className="lg:col-span-5 bg-[#14181F] border-2 border-safety-orange/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
+                      <div className="space-y-3">
+                        <span className="text-xs font-montserrat font-bold tracking-widest uppercase text-safety-orange block">
+                          FAST &amp; UPFRONT PRICING
+                        </span>
+                        <h3 className="font-bebas text-3xl sm:text-4xl text-white tracking-wide leading-tight">
+                          READY TO GET RID OF THE MESS?
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-inter">
+                          Request your upfront quote now. We load it, clear it, dispose of it responsibly, and leave your space clean and tidy.
+                        </p>
+                      </div>
+
+                      <div className="space-y-3 pt-2">
+                        <Link
+                          href={`/offers/${activeOffer.slug}#claim-offer`}
+                          className="w-full inline-flex items-center justify-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm sm:text-base tracking-wider uppercase px-8 py-4 rounded-xl shadow-xl shadow-safety-orange/25 transition-all hover:scale-[1.02] text-center"
+                        >
+                          <span>{activeOffer.ctaText || 'CLAIM THIS OFFER NOW'}</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Link>
+
+                        <a
+                          href={`tel:${(activeOffer.phone || '0481975170').replace(/\s+/g, '')}`}
+                          className="w-full inline-flex items-center justify-center gap-2 bg-[#080A0D] hover:bg-[#1C222B] text-white border border-[#343B46] font-montserrat font-bold text-sm tracking-wider uppercase px-6 py-3.5 rounded-xl transition-colors text-center"
+                        >
+                          <Phone className="w-4 h-4 text-safety-orange" />
+                          <span>Call {activeOffer.phone || '0481 975 170'}</span>
+                        </a>
+                      </div>
+
+                      <div className="pt-4 border-t border-[#343B46] flex items-center justify-between text-xs text-gray-400 font-semibold">
+                        <div className="flex items-center gap-1.5 text-gray-300">
+                          <CheckCircle2 className="w-4 h-4 text-safety-orange" />
+                          <span>Upfront Quote</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-gray-300">
+                          <CheckCircle2 className="w-4 h-4 text-safety-orange" />
+                          <span>Full Heavy Lifting</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </section>
+          </CMSSection>
+        )}
+
+
         {/* SECTION 2: ABOUT INTRODUCTION (Light Concrete #F3F4F2) */}
+        <CMSSection sectionKey="home_about" label="About Us Overview">
         <section className="bg-[#F3F4F2] text-[#111827] py-20 lg:py-28 border-b border-[#E2E5E9]">
           <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -293,8 +394,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </CMSSection>
 
         {/* SECTION 3: SERVICES (Dark Charcoal #14181F with Steel Cards #242B35) */}
+        <CMSSection sectionKey="home_services" label="Services Overview Grid">
         <section className="bg-[#14181F] text-white py-20 lg:py-28">
           <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             {/* Section Header */}
@@ -360,8 +463,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </CMSSection>
 
         {/* SECTION 4: HOW IT WORKS (Light Concrete #F3F4F2) */}
+        <CMSSection sectionKey="home_process" label="How It Works (4 Steps)">
         <section id="how-it-works" className="relative bg-[#F3F4F2] text-[#111827] py-16 lg:py-20 overflow-hidden border-t border-[#E2E5E9]">
           <div className="relative z-10 max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
@@ -485,8 +590,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </CMSSection>
 
         {/* SECTION 5: WHY CHOOSE US (Dark Charcoal #14181F with Steel Cards #242B35) */}
+        <CMSSection sectionKey="home_why" label="Why Choose Us">
         <section className="bg-[#14181F] text-white py-20 lg:py-24 border-t border-[#343B46]">
           <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-14">
@@ -555,8 +662,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </CMSSection>
 
         {/* SECTION 6: FEATURED WORK (Light Concrete #F3F4F2) */}
+        <CMSSection sectionKey="home_projects" label="Featured Projects (Before & After)" initialHidden={true}>
         <section className="bg-[#F3F4F2] text-[#111827] py-16 lg:py-20 border-t border-[#E2E5E9]">
           <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -613,8 +722,10 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </CMSSection>
 
         {/* SECTION 7: TESTIMONIALS (Light Concrete #F3F4F2 - visually compatible adjoining light surface) */}
+        <CMSSection sectionKey="home_testimonials" label="Customer Testimonials">
         {testimonials.length > 0 && (
           <section className="bg-[#F3F4F2] text-[#111827] pb-16 lg:pb-20">
             <div className="max-w-site mx-auto px-4 sm:px-6 lg:px-8">
@@ -687,8 +798,10 @@ export default function HomePage() {
             </div>
           </section>
         )}
+        </CMSSection>
 
         {/* SECTION 8: CLOSING CTA (Deep Black #080A0D with Safety Orange Accent) */}
+        <CMSSection sectionKey="home_cta" label="Bottom Call to Action">
         <section className="bg-[#080A0D] text-white py-16 lg:py-24 border-t border-[#343B46] text-center px-4">
           <div className="max-w-site mx-auto max-w-3xl">
             <span className="text-xs sm:text-sm font-montserrat font-bold uppercase tracking-wider text-safety-orange block mb-2">
@@ -734,6 +847,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        </CMSSection>
       </main>
 
       <Footer />

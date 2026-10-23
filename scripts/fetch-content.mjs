@@ -55,7 +55,15 @@ async function syncContent() {
         if (!fs.existsSync(dataDir)) {
           fs.mkdirSync(dataDir, { recursive: true });
         }
-        fs.writeFileSync(cmsFilePath, JSON.stringify(rows[0].data, null, 2), 'utf8');
+        const synced = rows[0].data;
+        if (!synced.settings) synced.settings = {};
+        if (!synced.settings.hiddenSections) {
+          synced.settings.hiddenSections = {
+            home_projects: true,
+            nav_our_work: true,
+          };
+        }
+        fs.writeFileSync(cmsFilePath, JSON.stringify(synced, null, 2), 'utf8');
         console.log('✅ [Build Step] Baked Supabase content into data/cms.json.');
         return;
       }

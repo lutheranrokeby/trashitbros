@@ -8,6 +8,7 @@ import { MediaLibraryModal } from './MediaLibraryModal';
 import {
   Edit3,
   Eye,
+  Save,
   UploadCloud,
   RotateCcw,
   LayoutDashboard,
@@ -26,6 +27,7 @@ export function CMSBar() {
     isEditMode,
     toggleEditMode,
     hasUnpublishedChanges,
+    saveDraft,
     publishPage,
     revertPage,
     isPublishing,
@@ -35,9 +37,18 @@ export function CMSBar() {
   } = useCMS();
 
   const [publishSuccess, setPublishSuccess] = useState(false);
+  const [draftSavedSuccess, setDraftSavedSuccess] = useState(false);
 
   // Do not render CMSBar on admin dashboard pages or if unauthenticated
   if (loading || !user || (pathname && pathname.startsWith('/admin'))) return null;
+
+  const handleSaveDraft = async () => {
+    const success = await saveDraft();
+    if (success) {
+      setDraftSavedSuccess(true);
+      setTimeout(() => setDraftSavedSuccess(false), 2500);
+    }
+  };
 
   const handlePublish = async () => {
     const success = await publishPage();
@@ -48,7 +59,11 @@ export function CMSBar() {
   };
 
   const handleRevert = async () => {
-    if (confirm('Discard unpublished changes on this page and revert to the live published version?')) {
+    if (
+      confirm(
+        'Discard all unpublished draft changes on this page and revert to the live published version?'
+      )
+    ) {
       await revertPage();
     }
   };
@@ -95,23 +110,44 @@ export function CMSBar() {
               <CheckCircle2 className="w-3 h-3" /> Published Live
             </span>
           )}
-
-          {isSaving && (
-            <span className="text-gray-400 flex items-center gap-1 text-[11px]">
-              <Loader2 className="w-3 h-3 animate-spin text-safety-orange" /> Saving draft...
-            </span>
-          )}
         </div>
 
         {/* Right: Actions */}
         <div className="flex items-center gap-2">
+          {/* Explicit Save Draft Button (Saves to DB, does NOT trigger deploy) */}
+          <button
+            onClick={handleSaveDraft}
+            disabled={isSaving}
+            title="Save draft changes to database without deploying"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded font-montserrat font-bold text-xs bg-charcoal hover:bg-steel-grey text-gray-200 border border-steel-grey transition-all"
+          >
+            {isSaving ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-safety-orange" />
+                <span>Saving...</span>
+              </>
+            ) : draftSavedSuccess ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-emerald-400 font-bold">Draft Saved!</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-3.5 h-3.5 text-safety-orange" />
+                <span>Save Draft</span>
+              </>
+            )}
+          </button>
+
+          {/* Explicit Revert Draft Button */}
           {hasUnpublishedChanges && (
             <button
               onClick={handleRevert}
               title="Discard draft and revert to published version"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded bg-charcoal hover:bg-red-950/40 text-gray-300 hover:text-red-400 border border-steel-grey transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-charcoal hover:bg-red-950/40 text-gray-300 hover:text-red-400 border border-steel-grey transition-colors font-montserrat font-semibold"
             >
-              <RotateCcw className="w-3.5 h-3.5" /> Discard
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Revert Draft</span>
             </button>
           )}
 
@@ -119,15 +155,21 @@ export function CMSBar() {
             onClick={() => openMediaPicker(() => {})}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded bg-charcoal hover:bg-steel-grey text-gray-200 border border-steel-grey transition-colors"
           >
-            <ImageIcon className="w-3.5 h-3.5 text-safety-orange" /> Media Library
+            <ImageIcon className="w-3.5 h-3.5 text-safety-orange" /> Media
           </button>
 
+          {/* Publish Live Button (Triggers Netlify Build Webhook) */}
           <button
             onClick={handlePublish}
             disabled={isPublishing || !hasUnpublishedChanges}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded font-montserrat font-bold transition-all ${
+            title={
               hasUnpublishedChanges
-                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow'
+                ? 'Publish live and trigger Netlify static rebuild'
+                : 'No unpublished changes to deploy'
+            }
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded font-montserrat font-bold transition-all ${
+              hasUnpublishedChanges
+                ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/40'
                 : 'bg-steel-grey/40 text-gray-400 cursor-not-allowed'
             }`}
           >
@@ -165,7 +207,9 @@ export function CMSBar() {
       {isEditMode && (
         <div className="sticky top-[45px] z-40 bg-safety-orange/15 border-b border-safety-orange/40 backdrop-blur text-safety-orange px-4 py-1.5 text-center text-xs font-montserrat font-semibold flex items-center justify-center gap-2">
           <Edit3 className="w-3.5 h-3.5 animate-pulse shrink-0" />
-          <span>INLINE EDITING ACTIVE — Click any highlighted element on the page to edit in place. Changes auto-save as drafts. Click &quot;Publish Live&quot; when ready.</span>
+          <span>
+            INLINE EDITING ACTIVE — Click any text or image on the page to edit. Use &quot;Save Draft&quot; to test or &quot;Publish Live&quot; to deploy to Netlify.
+          </span>
         </div>
       )}
       <MediaLibraryModal />

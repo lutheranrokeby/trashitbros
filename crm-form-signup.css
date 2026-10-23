@@ -1,0 +1,294 @@
+/* ==========================================================================
+   Trash It Bros - Lutheran CRM Form Theme ("Sign-Up")
+   Tailored for the Trash It Bros Contact Us Page Aesthetic
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+/* --- Root & Form Variables --- */
+:root,
+.lcrm-form-root {
+  --lcrm-primary: #FF5500 !important;
+  --lcrm-primary-hover: #E04B00 !important;
+  --lcrm-bg: transparent !important;
+  --lcrm-text: #FFFFFF !important;
+  --lcrm-text-muted: #94A3B8 !important;
+  --lcrm-input-bg: #080A0D !important;
+  --lcrm-border: #343B46 !important;
+  --lcrm-border-focus: #FF5500 !important;
+  --lcrm-radius: 8px !important;
+
+  background: transparent !important;
+  color: var(--lcrm-text) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* --- Form Header --- */
+.lcrm-form-header {
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 0.75rem !important;
+  border-bottom: 1px solid var(--lcrm-border) !important;
+}
+
+.lcrm-form-title {
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 2.25rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.04em !important;
+  color: #FFFFFF !important;
+  margin: 0 0 0.5rem 0 !important;
+  text-transform: uppercase !important;
+}
+
+.lcrm-form-description {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.875rem !important;
+  color: var(--lcrm-text-muted) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* --- Section Container --- */
+.lcrm-form-section,
+#lcrm-section-sec-1 {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.lcrm-form-section-title {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: #FF5500 !important;
+  margin: 0 0 1rem 0 !important;
+  border-left: 3px solid #FF5500 !important;
+  padding-left: 0.625rem !important;
+}
+
+.lcrm-form-section-desc {
+  font-size: 0.8125rem !important;
+  color: var(--lcrm-text-muted) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+/* --- Form Fields & Grid Layout --- */
+.lcrm-form-field {
+  margin-bottom: 1.25rem !important;
+}
+
+/* Desktop 2-column layout for First Name & Last Name */
+@media (min-width: 640px) {
+  #lcrm-section-sec-1 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 1rem !important;
+    row-gap: 0.25rem !important;
+  }
+
+  #lcrm-field-field_1792526568304_bzk1 {
+    grid-column: 1 / 2 !important;
+  }
+
+  #lcrm-field-field_1792526568882_3vl6 {
+    grid-column: 2 / 3 !important;
+  }
+
+  #lcrm-field-field_1792526569479_wqhy {
+    grid-column: 1 / -1 !important;
+  }
+
+  #lcrm-field-field_1792526570016_rpm5 {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* --- Field Labels --- */
+.lcrm-form-label,
+label {
+  display: block !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.6875rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.075em !important;
+  color: #CBD5E1 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Required asterisk in Safety Orange */
+.lcrm-form-label .text-red-500,
+.lcrm-form-label span.text-red-500,
+label .text-red-500 {
+  color: #FF5500 !important;
+  font-weight: 800 !important;
+  margin-left: 0.25rem !important;
+}
+
+/* --- Input Fields (Text, Email, Phone, Select, Textarea) --- */
+.lcrm-form-input,
+input,
+textarea,
+select {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background-color: #080A0D !important;
+  color: #FFFFFF !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  padding: 0.75rem 1rem !important;
+  border: 1px solid #343B46 !important;
+  border-radius: 8px !important;
+  outline: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
+}
+
+.lcrm-form-input::placeholder,
+input::placeholder,
+textarea::placeholder {
+  color: #64748B !important;
+  font-weight: 400 !important;
+}
+
+.lcrm-form-input:hover,
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: #4B5563 !important;
+}
+
+.lcrm-form-input:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #FF5500 !important;
+  background-color: #0c0f14 !important;
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.22) !important;
+}
+
+/* --- Helper & Error Text --- */
+.lcrm-form-help {
+  font-size: 0.75rem !important;
+  color: #94A3B8 !important;
+  margin-top: 0.375rem !important;
+  line-height: 1.4 !important;
+}
+
+/* Validation error text */
+.text-red-500,
+.lcrm-form-field .text-red-500 {
+  color: #EF4444 !important;
+  font-size: 0.75rem !important;
+  margin-top: 0.375rem !important;
+}
+
+/* --- Actions & Submit Button --- */
+.lcrm-form-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.75rem !important;
+  margin-top: 1.5rem !important;
+  padding-top: 1.25rem !important;
+  border-top: 1px solid #242B35 !important;
+}
+
+.lcrm-form-submit-btn,
+button[type="submit"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  background-color: #FF5500 !important;
+  color: #FFFFFF !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.8125rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 0.9375rem 2rem !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(255, 85, 0, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.lcrm-form-submit-btn:hover,
+button[type="submit"]:hover {
+  background-color: #E04B00 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(255, 85, 0, 0.45) !important;
+}
+
+.lcrm-form-submit-btn:active,
+button[type="submit"]:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(255, 85, 0, 0.3) !important;
+}
+
+.lcrm-form-submit-btn:disabled,
+button[type="submit"]:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Secondary Buttons (Back, Draft) */
+.lcrm-form-back-btn,
+.lcrm-form-draft-btn {
+  background-color: #242B35 !important;
+  color: #E2E8F0 !important;
+  border: 1px solid #343B46 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 0.875rem 1.5rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.lcrm-form-back-btn:hover,
+.lcrm-form-draft-btn:hover {
+  background-color: #343B46 !important;
+  color: #FFFFFF !important;
+}
+
+/* --- Submission Success Card --- */
+.lcrm-form-success {
+  background-color: #080A0D !important;
+  border: 1px solid #343B46 !important;
+  border-top: 4px solid #FF5500 !important;
+  border-radius: 12px !important;
+  padding: 2.5rem 1.75rem !important;
+  text-align: center !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.lcrm-form-success h3,
+.lcrm-form-success .text-xl {
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 2rem !important;
+  letter-spacing: 0.04em !important;
+  color: #FFFFFF !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.lcrm-form-success p {
+  color: #CBD5E1 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+}

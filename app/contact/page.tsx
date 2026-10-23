@@ -1,10 +1,15 @@
 import React from 'react';
-import Link from 'next/link';
 import { Header } from '@/components/public/Header';
 import { Footer } from '@/components/public/Footer';
-import { Phone, Mail, MapPin, Clock, ArrowRight, ShieldCheck } from 'lucide-react';
+import { InlineText } from '@/components/cms/InlineText';
+import { CRMFormEmbed } from '@/components/public/CRMFormEmbed';
+import { Phone, Mail, MapPin, Clock, ShieldCheck } from 'lucide-react';
+import { readDatabase } from '@/lib/cms/db';
 
 export default function ContactPage() {
+  const db = readDatabase();
+  const form = db.forms?.find((f) => f.id === 'contact-form');
+
   return (
     <div className="flex flex-col min-h-screen bg-[#080A0D] text-white">
       <Header />
@@ -13,16 +18,33 @@ export default function ContactPage() {
         {/* Hero */}
         <section className="py-20 lg:py-28 bg-[#080A0D] border-b border-[#343B46] text-center px-4">
           <div className="max-w-site mx-auto">
-            <span className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2">
-              GET IN TOUCH
-            </span>
+            <InlineText
+              fieldKey="hero_eyebrow"
+              defaultValue="GET IN TOUCH"
+              as="span"
+              className="text-xs sm:text-sm font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2"
+            />
             <h1 className="font-bebas text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.95] mb-6">
-              <span className="block text-white">TALK TO</span>
-              <span className="block text-safety-orange">THE TEAM.</span>
+              <InlineText
+                fieldKey="hero_title_1"
+                defaultValue="TALK TO"
+                as="span"
+                className="block text-white"
+              />
+              <InlineText
+                fieldKey="hero_title_2"
+                defaultValue="THE TEAM."
+                as="span"
+                className="block text-safety-orange"
+              />
             </h1>
-            <p className="text-gray-300 max-w-xl mx-auto text-base sm:text-lg leading-relaxed mb-6 font-inter">
-              Reach out for quotes, recurring construction accounts, or general collection enquiries across the Sunshine Coast.
-            </p>
+            <InlineText
+              fieldKey="hero_description"
+              defaultValue="Reach out for quotes, recurring construction accounts, or general collection enquiries across the Sunshine Coast."
+              as="p"
+              multiline
+              className="text-gray-300 max-w-xl mx-auto text-base sm:text-lg leading-relaxed mb-6 font-inter"
+            />
           </div>
         </section>
 
@@ -33,12 +55,19 @@ export default function ContactPage() {
               {/* Left Details */}
               <div className="lg:col-span-5 space-y-6">
                 <div>
-                  <h2 className="font-bebas text-4xl text-[#111827] mb-2 tracking-tight">
-                    CONTACT INFORMATION
-                  </h2>
-                  <p className="text-sm text-[#334155] leading-relaxed">
-                    Have questions about waste acceptance, site clearance timelines, or pricing? Contact us directly or submit your details online.
-                  </p>
+                  <InlineText
+                    fieldKey="info_heading"
+                    defaultValue="CONTACT INFORMATION"
+                    as="h2"
+                    className="font-bebas text-4xl text-[#111827] mb-2 tracking-tight"
+                  />
+                  <InlineText
+                    fieldKey="info_subheading"
+                    defaultValue="Have questions about waste acceptance, site clearance timelines, or pricing? Contact us directly or submit your details online."
+                    as="p"
+                    multiline
+                    className="text-sm text-[#334155] leading-relaxed"
+                  />
                 </div>
 
                 {/* White Contact Cards */}
@@ -51,7 +80,7 @@ export default function ContactPage() {
                     <div>
                       <span className="text-xs font-montserrat font-bold text-[#64748B] uppercase block mb-0.5">Phone</span>
                       <a href="tel:0481975170" className="text-base font-semibold text-[#111827] hover:text-safety-orange transition-colors">
-                        0481 975 170
+                        <InlineText fieldKey="contact_phone" defaultValue="0481 975 170" as="span" />
                       </a>
                       <span className="text-[11px] text-[#64748B] block mt-0.5">Available 24/7 for quotes & urgent requests</span>
                     </div>
@@ -64,7 +93,12 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <span className="text-xs font-montserrat font-bold text-[#64748B] uppercase block mb-0.5">Operating Hours</span>
-                      <span className="text-base font-semibold text-[#111827]">Mon – Sat: 6:00 AM – 6:00 PM</span>
+                      <InlineText
+                        fieldKey="contact_hours"
+                        defaultValue="Mon – Sat: 6:00 AM – 6:00 PM"
+                        as="span"
+                        className="text-base font-semibold text-[#111827] block"
+                      />
                       <div className="mt-1 flex items-center gap-1.5">
                         <span className="inline-flex items-center bg-safety-orange/15 border border-safety-orange/30 text-[#C2410C] font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wide">
                           ★ 24/7 On-Call Service
@@ -81,7 +115,12 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <span className="text-xs font-montserrat font-bold text-[#64748B] uppercase block mb-0.5">Email</span>
-                      <span className="text-base font-semibold text-[#111827]">info@trashitbros.com.au</span>
+                      <InlineText
+                        fieldKey="contact_email"
+                        defaultValue="info@trashitbros.com.au"
+                        as="span"
+                        className="text-base font-semibold text-[#111827]"
+                      />
                       <span className="text-[11px] text-[#64748B] block mt-0.5">Fast email turnaround</span>
                     </div>
                   </div>
@@ -93,43 +132,50 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <span className="text-xs font-montserrat font-bold text-[#64748B] uppercase block mb-0.5">Service Area</span>
-                      <span className="text-base font-semibold text-[#111827]">Sunshine Coast, QLD</span>
+                      <InlineText
+                        fieldKey="contact_area"
+                        defaultValue="Sunshine Coast, QLD"
+                        as="span"
+                        className="text-base font-semibold text-[#111827] block"
+                      />
                       <span className="text-[11px] text-[#64748B] block mt-0.5">Caloundra to Noosa & Hinterland</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Reminder Box */}
-                <div className="p-5 rounded-xl bg-white border border-[#E2E5E9] shadow-xs">
-                  <div className="flex items-center gap-2 text-xs font-montserrat font-bold text-safety-orange uppercase mb-1.5">
-                    <ShieldCheck className="w-4 h-4" /> Important Reminder
+                {/* Trust Callout */}
+                <div className="bg-[#14181F] border border-[#343B46] rounded-xl p-5 text-white flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-safety-orange/15 border border-safety-orange/30 flex items-center justify-center text-safety-orange shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <p className="text-xs text-[#334155] leading-relaxed">
-                    Trash It Bros collects and removes rubbish directly using our trucks and crew. <strong>We provide full truck loading and site clearance.</strong>
-                  </p>
+                  <div>
+                    <h4 className="font-montserrat font-bold text-sm text-white">Direct Builder Support</h4>
+                    <p className="text-xs text-gray-300">Speak with our local operations team directly.</p>
+                  </div>
                 </div>
               </div>
 
-              {/* Right: Request a Quote card (Deep Charcoal #14181F for strong visual contrast) */}
-              <div className="lg:col-span-7 bg-[#14181F] border border-[#343B46] rounded-xl p-8 sm:p-12 shadow-xl flex flex-col justify-center text-white">
-                <span className="text-xs font-montserrat font-bold uppercase tracking-widest text-safety-orange block mb-2">
-                  NEED A FAST PRICE?
-                </span>
-                <h3 className="font-bebas text-5xl sm:text-6xl text-white mb-4 tracking-tight">
-                  REQUEST A FREE QUOTE ONLINE
-                </h3>
-                <p className="text-[#CBD5E1] text-sm sm:text-base leading-relaxed mb-8 font-inter">
-                  For the quickest quotation, use our dedicated quote form where you can attach photos of the waste pile and specify site access details.
-                </p>
-                <div>
-                  <Link
-                    href="/get-a-quote"
-                    className="inline-flex items-center justify-center gap-2.5 bg-safety-orange hover:bg-orange-hover text-white font-montserrat font-bold text-sm tracking-wider uppercase py-4 px-8 rounded-md transition-all shadow-xl shadow-safety-orange/20"
-                  >
-                    <span>GO TO QUOTE REQUEST FORM</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+              {/* Right Column: CRM Form Embed */}
+              <div className="lg:col-span-7 bg-[#14181F] border border-[#343B46] rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+                <div className="mb-6">
+                  <InlineText
+                    fieldKey="form_cta_eyebrow"
+                    defaultValue="ONLINE ENQUIRY"
+                    as="span"
+                    className="text-xs font-montserrat font-bold tracking-widest uppercase text-safety-orange block mb-2"
+                  />
+                  <InlineText
+                    fieldKey="form_cta_title"
+                    defaultValue="SEND US A MESSAGE"
+                    as="h3"
+                    className="font-bebas text-4xl sm:text-5xl text-white tracking-tight"
+                  />
                 </div>
+                <CRMFormEmbed
+                  formId="contact-form"
+                  defaultName="Contact Us Form"
+                  initialEmbedCode={form?.embedCode}
+                />
               </div>
             </div>
           </div>

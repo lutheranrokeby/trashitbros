@@ -1,0 +1,222 @@
+/* ==========================================================================
+   TRASH IT BROS - CUSTOM STYLING FOR LUTHERAN CRM FORM EMBED
+   Paste this into Lutheran CRM Form Settings -> Styling / Custom CSS
+   ========================================================================== */
+
+/* 1. Root Container & Theme */
+:root {
+  --lcrm-primary: #FF5722 !important;
+  --lcrm-radius: 8px !important;
+}
+
+body {
+  background-color: transparent !important;
+  color: #FFFFFF !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.lcrm-form-root {
+  background-color: #14181F !important;
+  border: 1px solid #343B46 !important;
+  border-radius: 16px !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6) !important;
+  padding: 1.5rem !important;
+}
+
+@media (min-width: 640px) {
+  .lcrm-form-root {
+    padding: 2.25rem !important;
+  }
+}
+
+/* 2. Header & Typography */
+.lcrm-form-header {
+  border-bottom: 1px solid #343B46 !important;
+  padding-bottom: 1.25rem !important;
+  margin-bottom: 1.75rem !important;
+}
+
+.lcrm-form-title {
+  font-family: 'Bebas Neue', 'Montserrat', sans-serif !important;
+  font-size: 2rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: #FFFFFF !important;
+  line-height: 1.1 !important;
+}
+
+.lcrm-form-description {
+  color: #94A3B8 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  margin-top: 0.35rem !important;
+}
+
+/* 3. Section Titles */
+.lcrm-form-section-title {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.8125rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: #FF5722 !important;
+}
+
+.lcrm-form-section-desc {
+  color: #94A3B8 !important;
+  font-size: 0.75rem !important;
+}
+
+/* 4. Labels & Helper Text */
+.lcrm-form-label,
+label {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #E2E8F0 !important;
+  margin-bottom: 0.35rem !important;
+  display: block !important;
+}
+
+.lcrm-form-label .text-red-500,
+.lcrm-form-label .text-red-600 {
+  color: #FF5722 !important;
+  margin-left: 2px !important;
+}
+
+.lcrm-form-help,
+.text-slate-500,
+.text-slate-400 {
+  color: #94A3B8 !important;
+  font-size: 0.75rem !important;
+}
+
+/* 5. Inputs, Textareas & Selects */
+.lcrm-form-input,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  background-color: #080A0D !important;
+  color: #FFFFFF !important;
+  border: 1px solid #343B46 !important;
+  border-radius: 8px !important;
+  font-size: 0.875rem !important;
+  padding: 0.65rem 0.85rem !important;
+  transition: all 0.2s ease-in-out !important;
+  width: 100% !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748B !important;
+}
+
+.lcrm-form-input:hover,
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: #475569 !important;
+}
+
+.lcrm-form-input:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #FF5722 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.22) !important;
+}
+
+/* 6. Step Progress Bar */
+.lcrm-form-step-bar {
+  margin-bottom: 1.5rem !important;
+}
+
+.lcrm-form-step-indicator {
+  height: 6px !important;
+  border-radius: 9999px !important;
+}
+
+.lcrm-form-step-indicator.bg-slate-200,
+.lcrm-form-step-indicator.dark\:bg-slate-800 {
+  background-color: #242B35 !important;
+}
+
+/* 7. Action / Submit Buttons */
+.lcrm-form-submit-btn,
+button[type="submit"],
+.lcrm-form-root button.bg-blue-600 {
+  background-color: #FF5722 !important;
+  color: #FFFFFF !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.8125rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  border-radius: 8px !important;
+  padding: 0.85rem 1.5rem !important;
+  border: none !important;
+  box-shadow: 0 6px 20px -3px rgba(255, 87, 34, 0.38) !important;
+  transition: all 0.2s ease-in-out !important;
+  cursor: pointer !important;
+}
+
+.lcrm-form-submit-btn:hover,
+button[type="submit"]:hover,
+.lcrm-form-root button.bg-blue-600:hover {
+  background-color: #F4511E !important;
+  box-shadow: 0 8px 24px -2px rgba(255, 87, 34, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+.lcrm-form-submit-btn:disabled,
+button[type="submit"]:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* Secondary / Back Buttons */
+button.bg-slate-100,
+button.dark\:bg-slate-800,
+button.border-slate-200 {
+  background-color: #242B35 !important;
+  border-color: #343B46 !important;
+  color: #E2E8F0 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  border-radius: 8px !important;
+}
+
+button.bg-slate-100:hover,
+button.dark\:bg-slate-800:hover {
+  background-color: #343B46 !important;
+  color: #FFFFFF !important;
+}
+
+/* 8. Success State */
+.lcrm-form-success {
+  background-color: #14181F !important;
+  border-color: #343B46 !important;
+}
+
+.lcrm-form-success h3,
+.lcrm-form-success .text-xl {
+  font-family: 'Bebas Neue', sans-serif !important;
+  color: #FFFFFF !important;
+  font-size: 2rem !important;
+  letter-spacing: 0.04em !important;
+}
+
+.lcrm-form-success p {
+  color: #94A3B8 !important;
+}

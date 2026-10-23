@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
+import { SiteSettings } from '@/lib/cms/types';
 
 interface CMSUser {
   id: string;
@@ -21,12 +22,18 @@ interface CMSContextType {
   hasUnpublishedChanges: boolean;
   isSaving: boolean;
   isPublishing: boolean;
+  settings: SiteSettings | null;
+  hiddenSections: Record<string, boolean>;
   toggleEditMode: () => void;
   setEditMode: (enabled: boolean) => void;
   updateField: (key: string, value: string) => Promise<void>;
+  saveDraft: () => Promise<boolean>;
   publishPage: () => Promise<boolean>;
   revertPage: (revisionId?: string) => Promise<boolean>;
   refreshContent: (pageSlug?: string) => Promise<void>;
+  refreshSettings: () => Promise<void>;
+  toggleSectionVisibility: (sectionKey: string) => Promise<void>;
+  isSectionHidden: (sectionKey: string) => boolean;
   openMediaPicker: (onSelect: (url: string) => void) => void;
   closeMediaPicker: () => void;
   mediaPickerOpen: boolean;
@@ -48,6 +55,11 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   const [hasUnpublishedChanges, setHasUnpublishedChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [hiddenSections, setHiddenSections] = useState<Record<string, boolean>>({
+    home_projects: true,
+    nav_our_work: true,
+  });
 
   // Media Picker modal state
   const [mediaPickerOpen, setMediaPickerOpen] = useState(false);
@@ -83,6 +95,22 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     }
   }, [currentPage, isEditMode]);
 
+  // Fetch site settings (including hidden sections)
+  const refreshSettings = useCallback(async () => {
+    try {
+      const res = await fetch('/api/cms/settings');
+      if (res.ok) {
+        const data = await res.json();
+        setSettings(data);
+        if (data && data.hiddenSections) {
+          setHiddenSections(data.hiddenSections);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load settings:', err);
+    }
+  }, []);
+
   // Sync current page with pathname
   useEffect(() => {
     if (!pathname || pathname.startsWith('/admin') || pathname.startsWith('/api')) return;
@@ -110,7 +138,8 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth, pathname]);
+    refreshSettings();
+  }, [checkAuth, refreshSettings, pathname]);
 
   // Read edit mode from URL (?edit=true) or localStorage
   useEffect(() => {
@@ -135,7 +164,6 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
 
   // Update a field in the draft
   const updateField = async (key: string, value: string) => {
-    // Optimistic local update
     setContent((prev) => ({ ...prev, [key]: value }));
     setHasUnpublishedChanges(true);
     setIsSaving(true);
@@ -147,6 +175,28 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
       });
     } catch (err) {
       console.error('Failed to auto-save field:', err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Explicitly save current draft to Supabase
+  const saveDraft = async () => {
+    setIsSaving(true);
+    try {
+      const res = await fetch('/api/cms/content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: currentPage, updates: content }),
+      });
+      if (res.ok) {
+        setHasUnpublishedChanges(true);
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error('Failed to save draft:', err);
+      return false;
     } finally {
       setIsSaving(false);
     }
@@ -194,6 +244,35 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Toggle visibility of a section
+  const toggleSectionVisibility = async (sectionKey: string) => {
+    const isCurrentlyHidden = !!hiddenSections[sectionKey];
+    const newHidden = !isCurrentlyHidden;
+    const updated = {
+      ...hiddenSections,
+      [sectionKey]: newHidden,
+    };
+    // If hiding home_projects, also hide nav_our_work for convenience
+    if (sectionKey === 'home_projects') {
+      updated['nav_our_work'] = newHidden;
+    }
+    setHiddenSections(updated);
+
+    try {
+      await fetch('/api/cms/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hiddenSections: updated }),
+      });
+    } catch (err) {
+      console.error('Failed to update hidden sections:', err);
+    }
+  };
+
+  const isSectionHidden = (sectionKey: string) => {
+    return !!hiddenSections[sectionKey];
+  };
+
   const openMediaPicker = (onSelect: (url: string) => void) => {
     setMediaPickerCallback(() => onSelect);
     setMediaPickerOpen(true);
@@ -224,12 +303,18 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
         hasUnpublishedChanges,
         isSaving,
         isPublishing,
+        settings,
+        hiddenSections,
         toggleEditMode,
         setEditMode,
         updateField,
+        saveDraft,
         publishPage,
         revertPage,
         refreshContent,
+        refreshSettings,
+        toggleSectionVisibility,
+        isSectionHidden,
         openMediaPicker,
         closeMediaPicker,
         mediaPickerOpen,
