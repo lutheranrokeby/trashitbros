@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Montserrat, Inter } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/public/GoogleAnalytics";
 import { CMSProvider } from "@/components/cms/CMSContext";
 import { CMSBar } from "@/components/cms/CMSBar";
 import { readDatabase } from "@/lib/cms/db";
@@ -64,6 +65,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href={siteIcon} />
       </head>
       <body className="bg-charcoal text-white font-inter antialiased min-h-screen flex flex-col">
+        <GoogleAnalytics />
         <CMSProvider>
           <CMSBar />
           {children}
